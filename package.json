@@ -1,0 +1,25 @@
+{
+  "name": "stylelint-config",
+  "version": "1.0.0",
+  "description": "App for quick generation of stylelint config",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maximgatilin/stylelint-config.git"
+  },
+  "keywords": [
+    "stylelint"
+  ],
+  "author": "Maxim Gatilin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/maximgatilin/stylelint-config/issues"
+  },
+  "homepage": "https://github.com/maximgatilin/stylelint-config#readme",
+  "devDependencies": {
+    "oncogene": "^1.12.0"
+  }
+}

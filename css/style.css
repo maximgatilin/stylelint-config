@@ -1,0 +1,87 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    font-family: sans-serif;
+}
+
+.oncogene {
+    max-width: 800px;
+    border: 1px solid #999;
+    margin: 16px auto;
+    padding: 16px;
+    border-radius: 4px;
+}
+
+.oncogene__hint {
+    font-size: 1.4rem;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.oncogene__progress {
+    margin-top: 16px;
+    text-align: center;
+}
+
+.oncogene-variants {
+    display: flex;
+    justify-content: space-around;
+}
+
+.oncogene-variants__item {
+    background-color: #eee;
+    padding: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    opacity: .8;
+}
+
+.oncogene-variants__item:hover {
+    opacity: 1;
+}
+
+.oncogene-variants__hint {
+    font-weight: bold;
+    opacity: .7;
+    margin-bottom: 16px;
+}
+
+.oncogene-variants__code {
+    font-family: monospace;
+    white-space: pre;
+}
+
+.oncogene-result {
+}
+
+.oncogene-result__config {
+    font-family: monospace;
+    white-space: pre;
+}
+
+body {
+    display: flex;
+}
+
+.oncogene {
+    flex-grow: 1;
+}
+
+.result {
+    margin: 16px;
+    flex-basis: 500px;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.result {
+    border: 1px solid #999;
+    padding: 16px;
+    border-radius: 4px;
+}
+
+.config {
+    font-family: monospace;
+    white-space: pre;
+}
