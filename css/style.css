@@ -1,16 +1,68 @@
+:root {
+    /*main colors*/
+    --font-color: #000;
+    --back-color: #ecf0f1;
+    --back-dark-color: #ddd;
+    /*buttons*/
+    --default-color: #3498db;
+    --default-color-active: #2980b9;
+    --warning-color: #e74c3c;
+    --warning-color-active: #c0392b;
+    /*sizes*/
+    --page-max-width: 1024px;
+    --offset: 20px;
+    --radius: 5px;
+}
+
 * {
     margin: 0;
     padding: 0;
     font-size: 20px;
     font-family: sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    color: var(--font-color);
+    background: var(--back-color);
+}
+
+.page {
+    width: 100%;
+    max-width: var(--page-max-width);
+    margin: 0 auto;
+    padding: 60px var(--offset);
+}
+
+.page__heading {
+    font-size: 40px;
+    padding-bottom: 20px;
+}
+
+.page__main {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    padding-top: var(--offset);
 }
 
 .oncogene {
-    max-width: 800px;
-    border: 1px solid #999;
-    margin: 16px auto;
-    padding: 16px;
-    border-radius: 4px;
+    width: 45%;
+    flex: 0 0 auto;
+    padding: var(--offset);
+    border-radius: var(--radius);
+    background: var(--back-dark-color);
+}
+
+.result {
+    width: 45%;
+    flex: 0 0 auto;
+    padding: var(--offset);
+    background: var(--back-dark-color);
 }
 
 .oncogene__hint {
@@ -20,21 +72,24 @@
 }
 
 .oncogene__progress {
-    margin-top: 16px;
+    margin: var(--offset) 0 0;
     text-align: center;
 }
 
 .oncogene-variants {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .oncogene-variants__item {
+    flex: 0 0 auto;
+    width: 45%;
     background-color: #eee;
     padding: 16px;
     border-radius: 4px;
     cursor: pointer;
-    opacity: .8;
+    opacity: .75;
+    transition: opacity .2s ease;
 }
 
 .oncogene-variants__item:hover {
@@ -44,7 +99,6 @@
 .oncogene-variants__hint {
     font-weight: bold;
     opacity: .7;
-    margin-bottom: 16px;
 }
 
 .oncogene-variants__code {
@@ -52,36 +106,62 @@
     white-space: pre;
 }
 
-.oncogene-result {
-}
-
-.oncogene-result__config {
-    font-family: monospace;
-    white-space: pre;
-}
-
-body {
-    display: flex;
-}
-
-.oncogene {
-    flex-grow: 1;
-}
-
-.result {
-    margin: 16px;
-    flex-basis: 500px;
-    flex-grow: 0;
-    flex-shrink: 0;
-}
-
-.result {
-    border: 1px solid #999;
-    padding: 16px;
-    border-radius: 4px;
-}
-
 .config {
     font-family: monospace;
     white-space: pre;
+}
+
+.ui {
+    padding: var(--offset) 0 0;
+}
+
+.ui__buttons-list {
+    list-style: none;
+}
+
+.ui__buttons-item {
+    display: inline-block;
+    padding-right: var(--offset);
+}
+
+.button {
+    display: inline-block;
+    border: 0;
+    padding: 10px 15px;
+    cursor: pointer;
+    color: #fff;
+    border-radius: var(--radius);
+    transition: .2s ease;
+}
+
+.button--warning {
+    background: var(--warning-color);
+}
+
+.button--warning:hover {
+    background: var(--warning-color-active);
+}
+
+.button--default {
+    background: var(--default-color);
+}
+
+.button--default:hover {
+    background: var(--default-color-active);
+}
+
+.footer {
+    text-align: center;
+    margin-top: auto;
+    background: var(--back-dark-color);
+}
+
+.footer__link {
+    height: 50px;
+    line-height: 50px;
+    display: inline-block;
+    color: var(--font-color);
+    text-decoration: none;
+    background: #aaa;
+    padding: 0 20px;
 }
