@@ -77,13 +77,10 @@ body {
 }
 
 .oncogene-variants {
-    display: flex;
-    justify-content: space-between;
+    
 }
 
 .oncogene-variants__item {
-    flex: 0 0 auto;
-    width: 45%;
     background-color: #eee;
     padding: 16px;
     border-radius: 4px;
@@ -92,18 +89,30 @@ body {
     transition: opacity .2s ease;
 }
 
+.oncogene-variants__item + .oncogene-variants__item {
+    margin-top: var(--offset);
+}
+
+.oncogene-variants__item input[type="text"] {
+    width: 100%;
+}
+
 .oncogene-variants__item:hover {
     opacity: 1;
 }
 
 .oncogene-variants__hint {
+    font-size: 14px;
     font-weight: bold;
-    opacity: .7;
 }
 
 .oncogene-variants__code {
     font-family: monospace;
     white-space: pre;
+}
+
+.oncogene-variants__hint + .oncogene-variants__code {
+    padding: 10px 0 0;
 }
 
 .config {
