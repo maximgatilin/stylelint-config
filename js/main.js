@@ -6,10 +6,12 @@ class StyleLintOncogene extends Oncogene {
         super.nextStep();
     }
 
-    createInputNode(type) {
+    createInputNode(config) {
         const node = document.createElement('input');
 
-        node.setAttribute("type", type);
+        node.setAttribute("type", config.type);
+        node.setAttribute("placeholder", config.placeholder || "");
+        node.setAttribute("data-value-type", config.valueType || "");
 
         return node;
     }
@@ -27,8 +29,9 @@ class StyleLintOncogene extends Oncogene {
         item.appendChild(code);
 
         if (variant.input === true) {
-            let input = this.createInputNode('text');
+            let input = this.createInputNode({ type: 'text', placeholder: variant.placeholder, valueType: variant.valueType });
             input.addEventListener('click', this.variantInputClickHandler.bind(this));
+            input.addEventListener('keyup', this.variantInputKeyUpHandler.bind(this));
             item.appendChild(input);
         }
 
@@ -37,15 +40,31 @@ class StyleLintOncogene extends Oncogene {
         return item;
     }
 
-    getValueFromInput(input) {
+    getInputValue(input) {
         const initialValue = input.value;
-        let formattedValue = initialValue.split(" ");
-        formattedValue = formattedValue.filter(item => item !== "");
+        const valueType = input.dataset.valueType;
+        let formattedValue = '';
+
+        if (valueType === 'int') {
+            formattedValue = Number(initialValue) || 0;
+        }
+
+        if (valueType === 'array') {
+            formattedValue = initialValue.split(" ");
+            formattedValue = formattedValue.filter(item => item !== "");
+        }
+
         return formattedValue;
     }
 
     variantInputClickHandler(e) {
         e.stopPropagation();
+    }
+
+    variantInputKeyUpHandler(e) {
+        if (e.code === "Enter") {
+            e.target.parentElement.click();
+        }
     }
 
     variantClickHandler(e) {
@@ -56,7 +75,7 @@ class StyleLintOncogene extends Oncogene {
 
         if (variant.input === true) {
             let input = e.currentTarget.querySelector('input');
-            let inputValue = this.getValueFromInput(input);
+            let inputValue = this.getInputValue(input);
             value = inputValue;
         }
 
@@ -79,6 +98,240 @@ class StyleLintOncogene extends Oncogene {
 new StyleLintOncogene({
     selector: '.oncogene',
     steps: [{
+        key: 'function-whitespace-after',
+        hint: 'Require or disallow whitespace after functions',
+        variants: [{
+            code: 'a {\n translate(1, 1)<mark> </mark>scale(3); \n}',
+            value: "always"
+        }, {
+            code: 'a {\n translate(1, 1)scale(3); \n}',
+            value: "never"
+        }]
+    }, {
+        key: 'function-whitelist',
+        hint: 'Functions whitelist(e.g. rgba, scale)',
+        variants: [{
+            input: true,
+            valueType: "array",
+            hint: 'Write functions names in space',
+            value: []
+        }, {
+            hint: 'Empty list(also you can dismiss this step)',
+            value: []
+        }]
+    }, {
+        key: 'function-url-scheme-whitelist',
+        hint: 'Function scheme whitelist(e.g. https, ftp)',
+        variants: [{
+            input: true,
+            valueType: "array",
+            hint: 'Write functions names in space',
+            value: []
+        }, {
+            hint: 'Empty list(also you can dismiss this step)',
+            value: []
+        }]
+    }, {
+        key: 'function-url-quotes',
+        hint: 'Function url quotes',
+        variants: [{
+            hint: 'Disallow',
+            code: 'a {\n   background: url(<mark>"</mark>x.jpg<mark>"</mark>); \n}',
+            value: 'always'
+        }, {
+            hint: 'Allow',
+           	code: 'a {\n   background: url(x.jpg); \n}',
+            value: 'never'
+        }]
+    }, {
+        key: 'function-url-data-uris',
+        hint: 'Require or disallow data URIs for urls.',
+        variants: [{
+            hint: 'Always',
+            code: 'a {\n  background-image:\n    url("<mark>data:</mark>image/gif;base64,R0lGODlh="); \n}',
+            value: 'always'
+        }, {
+            hint: 'Never',
+           	code: 'a {\n  background-image: url(image.gif); \n}',
+            value: 'never'
+        }]
+    }, {
+        key: 'function-parentheses-space-inside',
+        hint: 'Space after parentheses in functions',
+        variants: [{
+            hint: 'Always',
+            code: 'a { transform: translate(<mark> </mark>1, 1<mark> </mark>);}',
+            value: 'always'
+        }, {
+            hint: 'Newer',
+            code: 'a { transform: translate(1, 1);}',
+            value: 'never'
+        }, {
+            hint: 'Always in single-line',
+            code: 'a { transform: translate(<mark> </mark>1, 1<mark> </mark>);}\na {\n transform: translate(1,\n 1);\n}',
+            value: 'always-single-line'
+        }, {
+            hint: 'Never in single-line',
+            code: 'a { transform: translate(1, 1);}\na {\n transform: translate( 1,\n 1);\n}',
+            value: 'never-single-line'
+        }]
+    }, {
+        key: 'function-parentheses-newline-inside',
+        hint: 'Newline after parentheses in functions',
+        variants: [{
+            hint: 'Always',
+            code: 'a {\n  transform: translate(\n<mark>     </mark>1 ,1);\n}',
+            value: 'always'
+        }, {
+            hint: 'Always in multi-line',
+            code: 'a {\n  transform: translate<mark>(1</mark>, 1)\n}\na {\n  transform: translate(\n<mark>     </mark>1 ,1);\n}',
+            value: 'always-multi-line'
+        }, {
+            hint: 'Never in multi-line',
+            code: 'a {\n  transform: translate<mark>(1</mark>, 1);\n}\na {\n  transform: translate<mark>(1</mark>,\n1);\n}',
+            value: 'never-multi-line'
+        }]
+    }, {
+        key: 'function-max-empty-lines',
+        hint: 'Max empty lines in function(int)',
+        variants: [{
+            input: true,
+            valueType: "int",
+            placeholder: 'Amount of lines',
+            code: 'a {\n  transform: translate(\n    1,\n  <mark>/*these lines*/</mark>\n    1);\n}',
+            value: '0'
+        }, {
+            hint: 'No empty lines(0)',
+            code: 'a {\n  transform: translate(\n    1,\n    1);\n}',
+            value: 0
+        }]
+    }, {
+        key: 'function-name-case',
+        hint: 'Function name case',
+        variants: [{
+            code: 'a {\n  width: <mark>calc</mark>(5% - 10em); \n}',
+            value: 'lower'
+        }, {
+            code: 'a {\n  width: <mark>CALC</mark>(5% - 10em); \n}',
+            value: 'upper'
+        }]
+    }, {
+        key: 'function-linear-gradient-no-nonstandard-direction',
+        hint: 'Gradient direction "to" keyword',
+        variants: [{
+            code: 'a {\n  background: linear-gradient(\n <mark>to</mark> top, #fff, #000); \n}',
+            value: true
+        }, {
+            code: 'a {\n  background: linear-gradient(\n top, #fff, #000); \n}',
+            value: false
+        }]
+    }, {
+        key: 'function-comma-space-before',
+        hint: 'Space before function comma',
+        variants: [{
+            hint: 'Always',
+            code: 'a {\n  transform: translate(1<mark> ,</mark>1)\n}',
+            value: 'always'
+        }, {
+            hint: 'Never',
+            code: 'a {\n  transform: translate(<mark>1,</mark>1)\n}',
+            value: 'never'
+        }, {
+            hint: 'Always in single line',
+            code: 'a {\n  transform: translate(<mark>1 ,</mark>1)\n}\n a {\n  transform: translate(<mark>1,</mark>\n   ,1)\n}',
+            value: 'always-single-line'
+        }, {
+            hint: 'Never in single line',
+            code: 'a {\n  transform: translate(<mark>1,</mark>1)\n}\n a {\n  transform: translate(<mark>1 ,</mark>\n   1)\n}',
+            value: 'never-single-line'
+        }]
+    }, {
+        key: 'function-comma-space-after',
+        hint: 'Space after function comma',
+        variants: [{
+            hint: 'Always',
+            code: 'a {\n  transform: translate(1,<mark> </mark>1)\n}',
+            value: 'always'
+        }, {
+            hint: 'Never',
+            code: 'a {\n  transform: translate(1<mark>,1</mark>)\n}',
+            value: 'never'
+        }, {
+            hint: 'Always in single line',
+            code: 'a {\n  transform: translate(1<mark>, 1</mark>)\n}\n a {\n  transform: translate(1\n   <mark>,1</mark>)\n}',
+            value: 'always-single-line'
+        }, {
+            hint: 'Never in single line',
+            code: 'a {\n  transform: translate(1<mark>,1</mark>)\n}\n a {\n  transform: translate(1\n   <mark>, 1</mark>)\n}',
+            value: 'never-single-line'
+        }]
+    }, {
+        key: 'function-comma-newline-before',
+        hint: 'New line before comma in function',
+        variants: [{
+            hint: 'Always',
+            code: 'a {\n  transform: translate(1\n<mark>     </mark>,1)\n}',
+            value: 'always'
+        }, {
+            hint: 'Always multi line',
+            code: 'a {\n  transform: translate(1 ,1)\n}\na {\n  transform: translate(1 \n<mark>    </mark>,1)\n}',
+            value: 'always-multi-line'
+        }, {
+            hint: 'Never multi line',
+            code: 'a {\n  transform: translate(1<mark> , 1</mark>)\n}\n a {\n  transform: translate(<mark>1,</mark> \n  1)\n}',
+            value: 'never-multi-line'
+        }]
+    }, {
+        key: 'function-comma-newline-after',
+        hint: 'New line after comma in function',
+        variants: [{
+            hint: 'Always',
+            code: 'a {\n  transform: translate(1,<mark> </mark>\n  1)\n}',
+            value: 'always'
+        }, {
+            hint: 'Always multi line',
+            code: 'a {\n  transform: translate(1 <mark>,1</mark>)\n}\na {\n  transform: translate(1,<mark> </mark> \n   1)\n}',
+            value: 'always-multi-line'
+        }, {
+            hint: 'Never multi line',
+            code: 'a {\n  transform: translate(1,<mark> 1</mark>)\n}\n a {\n  transform: translate(1 \n  <mark>,1</mark>)\n}',
+            value: 'never-multi-line'
+        }]
+    }, {
+        key: 'function-calc-no-unspaced-operator',
+        hint: 'Spaces in calc function',
+        variants: [{
+            code: 'a {\n  top: calc(1px<mark> </mark>+<mark> </mark>2px); \n}',
+            value: true
+        }, {
+            code: 'a {\n  top: calc(1px+2px); \n}',
+            value: false
+        }]
+    }, {
+        key: 'function-blacklist',
+        hint: 'Function blacklist',
+        variants: [{
+            input: true,
+            valueType: "array",
+            hint: 'Write functions names in space',
+            value: []
+        }, {
+            hint: 'Empty list(also you can dismiss this step)',
+            value: []
+        }]
+    }, {
+        key: 'font-weight-notation',
+        hint: 'Font weight notation',
+        variants: [{
+            hint: 'Numeric',
+            code: 'a {\n  font-weight: <mark>700</mark>; \n}',
+            value: "numeric"
+        }, {
+            hint: 'Named where possible',
+            code: 'a {\n  font-weight: <mark>bold</mark>; \n}',
+            value: "named-where-possible"
+        }]
+    }, {
         key: 'font-family-no-duplicate-names',
         hint: 'Disallow font names duplicate',
         variants: [{
@@ -106,17 +359,6 @@ new StyleLintOncogene({
             value: 'always-unless-keyword',
             code: 'a {\n  font-family: <mark>"Arial"</mark>, sans-serif;\n}'
         }, ]
-    }, {
-        key: 'function-blacklist',
-        hint: 'Function blacklist',
-        variants: [{
-            input: true,
-            hint: 'Write functions names in space',
-            value: []
-        }, {
-            hint: 'Empty list(also you can dismiss this step)',
-            value: []
-        }]
     }, {
         key: 'color-hex-case',
         hint: 'Color case',

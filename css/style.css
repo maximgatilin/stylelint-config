@@ -12,12 +12,13 @@
     --page-max-width: 1024px;
     --offset: 20px;
     --radius: 5px;
+    --base-font-size: 14px;
 }
 
 * {
     margin: 0;
     padding: 0;
-    font-size: 20px;
+    font-size: var(--base-font-size);
     font-family: sans-serif;
     box-sizing: border-box;
 }
@@ -62,6 +63,7 @@ body {
     width: 45%;
     flex: 0 0 auto;
     padding: var(--offset);
+    overflow: auto;
     background: var(--back-dark-color);
 }
 
@@ -95,6 +97,11 @@ body {
 
 .oncogene-variants__item input[type="text"] {
     width: 100%;
+    margin-top: 10px;
+    padding: 5px 10px;
+    border-radius: var(--radius);
+    box-shadow: none;
+    border: none;
 }
 
 .oncogene-variants__item:hover {
