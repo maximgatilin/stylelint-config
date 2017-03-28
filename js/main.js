@@ -43,7 +43,7 @@ class StyleLintOncogene extends Oncogene {
     getInputValue(input) {
         const initialValue = input.value;
         const valueType = input.dataset.valueType;
-        let formattedValue = '';
+        let formattedValue = initialValue;
 
         if (valueType === 'int') {
             formattedValue = Number(initialValue) || 0;
@@ -98,6 +98,268 @@ class StyleLintOncogene extends Oncogene {
 new StyleLintOncogene({
     selector: '.oncogene',
     steps: [{
+        key: 'custom-property-pattern',
+        hint: 'Specify a pattern for custom properties(string|regexp)',
+        variants: [{
+            input: true,
+            valueType: "string",
+            placeholder: 'Write pattern here',
+            code: 'Example "foo-.+" \n\n:root { --<mark>foo-</mark>bar: 0; }',
+            value: ''
+        }, {
+            hint: 'No pattern(""). You can also dismiss this step.',
+            code: 'a {\n  transform: translate(\n    1,\n    1);\n}',
+            value: ''
+        }]
+    }, {
+        key: 'custom-property-empty-line-before',
+        hint: 'Require or disallow an empty line before custom properties',
+        variants: [{
+            hint: 'Always',
+            code: 'a {\n  top: 10px;\n   <mark>/* this line */</mark> \n   --foo: pink;\n   <mark>/* this line */</mark> \n   --bar: red;\n}',
+            value: "always"
+        }, {
+            hint: 'Never',
+            code: 'a {\n  top: 10px;\n  --foo: pink;\n  --bar: red;\n}',
+            value: "never"
+        }]
+    }, {
+        key: 'value-list-max-empty-lines',
+        hint: 'Max empty lines in value list(int)',
+        variants: [{
+            input: true,
+            valueType: "int",
+            placeholder: 'Amount of lines',
+            code: 'a {\n  box-shadow:\n   inset 0 2px 0 #dcffa6 \n    <mark>/*these lines*/</mark>\n    0 2px 5px #000;\n}',
+            value: '0'
+        }, {
+            hint: 'No empty lines(0). You can also dismiss this step.',
+            code: 'a {\n  transform: translate(\n    1,\n    1);\n}',
+            value: 0
+        }]
+    }, {
+        key: 'value-list-comma-space-before',
+        hint: 'Require a single space or disallow whitespace before the commas of value lists',
+        variants: [{
+            hint: 'Always',
+            code: 'a {\n  background-size: 0<mark> </mark>,0; \n}',
+            value: "always"
+        }, {
+            hint: 'Never',
+            code: 'a {\n  background-size: <mark>0,</mark>0; \n}',
+            value: "never"
+        }, {
+            hint: 'Always in single-line',
+            code: 'a {\n  background-size: 0<mark> </mark>,0; \n}\na {\n  background-size: 0 ,\n   0; \n}',
+            value: "always-single-line"
+        }, {
+            hint: 'Never in single-line',
+            code: 'a {\n  background-size: <mark>0,</mark>0; \n}\na {\n  background-size: 0 ,\n    0; \n}',
+            value: "never-single-line"
+        }]
+    }, {
+        key: 'value-list-comma-space-after',
+        hint: 'Require a single space or disallow whitespace after the commas of value lists',
+        variants: [{
+            hint: 'Always',
+            code: 'a {\n  background-size: 0,<mark> </mark>0; \n}',
+            value: "always"
+        }, {
+            hint: 'Never',
+            code: 'a {\n  background-size: 0<mark>,0</mark>; \n}',
+            value: "never"
+        }, {
+            hint: 'Always in single-line',
+            code: 'a {\n  background-size: 0,<mark> </mark>0; \n}\na {\n  background-size: 0\n   ,0; \n}',
+            value: "always-single-line"
+        }, {
+            hint: 'Never in single-line',
+            code: 'a {\n  background-size: 0<mark>,0</mark>; \n}\na {\n  background-size: 0\n   , 0; \n}',
+            value: "never-single-line"
+        }]
+    }, {
+        key: 'value-list-comma-newline-before',
+        hint: 'Require a newline or disallow whitespace before the commas of value lists',
+        variants: [{
+            hint: 'Always',
+            code: 'a {\n  background-size: 0,\n<mark>      </mark>0; \n}',
+            value: "always"
+        }, {
+            hint: 'Always in multi-line',
+            code: 'a {\n  background-size: 0, 0;\n} \na {\n  background-size: 0\n<mark>     </mark>,0; \n}',
+            value: "always-multi-line"
+        }, {
+            hint: 'Never in multi-line',
+            code: 'a {\n  background-size: 0,0;\n} \na {\n  background-size: 0,\n     0; \n}',
+            value: "never-multi-line"
+        }, ]
+    }, {
+        key: 'value-list-comma-newline-after',
+        hint: 'Require a newline or disallow whitespace after the commas of value lists',
+        variants: [{
+            hint: 'Always',
+            code: 'a {\n  background-size: 0,\n<mark>     </mark>0; \n}',
+            value: "always"
+        }, {
+            hint: 'Always in multi-line',
+            code: 'a {\n  background-size: 0, 0;\n} \na {\n  background-size: 0,\n<mark>     </mark>0; \n}',
+            value: "always-multi-line"
+        }, {
+            hint: 'Never in multi-line',
+            code: 'a {\n  background-size: 0,0;\n} \na {\n  background-size: 0\n     ,0; \n}',
+            value: "never-multi-line"
+        }, ]
+    }, {
+        key: 'value-no-vendor-prefix',
+        hint: 'Disallow vendor prefixes for values',
+        variants: [{
+            code: 'a {\n  display: flex; \n}',
+            value: true
+        }, {
+            code: 'a {\n  display: <mark>-webkit</mark>-flex; \n}',
+            value: false
+        }]
+    }, {
+        key: 'value-keyword-case',
+        hint: 'Specify lowercase or uppercase for keywords values',
+        variants: [{
+            code: 'a {\n  display: <mark>block</mark>; \n}',
+            value: "lower"
+        }, {
+            code: 'a {\n  display: <mark>BLOCK</mark>; \n}',
+            value: "upper"
+        }]
+    }, {
+        key: 'unit-whitelist',
+        hint: 'Specify a whitelist of allowed units(e.g. deg, rem)',
+        variants: [{
+            input: true,
+            valueType: 'array',
+            hint: 'Write units names in space',
+            value: []
+        }, {
+            hint: 'Empty list(also you can dismiss this step)',
+            value: []
+        }]
+    }, {
+        key: 'unit-no-unknown',
+        hint: 'Unknown units',
+        variants: [{
+            hint: 'Disallow',
+            code: 'a {\n  top: 0<mark>px</mark>; \n}',
+            value: true
+        }, {
+            hint: 'Allow',
+            code: 'a {\n  top: 0<mark>pixels</mark>; \n}',
+            value: false
+        }]
+    }, {
+        key: 'unit-case',
+        hint: 'Specify lowercase or uppercase for units',
+        variants: [{
+            code: 'a {\n  top: 0<mark>px</mark>; \n}',
+            value: "lower"
+        }, {
+            code: 'a {\n  top: 0<mark>PX</mark>; \n}',
+            value: "upper"
+        }]
+    }, {
+        key: 'unit-blacklist',
+        hint: 'Specify a blacklist of disallowed units(e.g. deg, rem)',
+        variants: [{
+            input: true,
+            valueType: 'array',
+            hint: 'Write units names in space',
+            value: []
+        }, {
+            hint: 'Empty list(also you can dismiss this step)',
+            value: []
+        }]
+    }, {
+        key: 'time-min-milliseconds',
+        hint: 'Specify the minimum number of <mark>milliseconds</mark> for time values',
+        variants: [{
+            input: true,
+            valueType: "int",
+            placeholder: 'Amount of milliseconds',
+            code: 'a { animation: slip-n-slide 150ms linear; }\n/**                          ↑\n*                          This time */',
+            value: 0
+        }, {
+            hint: 'Disallow milliseconds(0), you can also dismiss this step',
+            value: 0
+        }]
+    }, {
+        key: 'length-zero-no-unit',
+        hint: 'Units for zero lengths',
+        variants: [{
+            hint: 'Disallow',
+            code: 'a {\n  top: 0; \n}',
+            value: true
+        }, {
+            hint: 'Allow',
+            code: 'a {\n  top: 0<mark>px</mark>; \n}',
+            value: false
+        }]
+    }, {
+        key: 'string-quotes',
+        hint: 'Specify single or double quotes around strings',
+        variants: [{
+            hint: 'Single',
+            code: 'a {\n  content: <mark>\'</mark>x<mark>\'</mark>; \n}',
+            value: 'single'
+        }, {
+            hint: 'Double',
+            code: 'a {\n  content: <mark>"</mark>x<mark>"</mark>; \n}',
+            value: 'double'
+        }]
+    }, {
+        key: 'string-no-newline',
+        hint: 'Disallow (unescaped) newlines in strings',
+        variants: [{
+            hint: 'Disallow',
+            code: 'a {\n  content: "first\\Asecond"; \n}',
+            value: true
+        }, {
+            hint: 'Allow',
+            code: 'a {\n  content: "first\n<mark>      </mark>second"; \n}',
+            value: false
+        }]
+    }, {
+        key: 'number-no-trailing-zeros',
+        hint: 'Disallow trailing zeros in numbers',
+        variants: [{
+            hint: 'Disallow',
+            code: 'a {\n  top: 1px; \n}',
+            value: true
+        }, {
+            hint: 'Allow',
+            code: 'a {\n  top: 1.<mark>0</mark>px; \n}',
+            value: false
+        }]
+    }, {
+        key: 'number-max-precision',
+        hint: 'Limit the number of decimal places allowed in numbers',
+        variants: [{
+            input: true,
+            valueType: "int",
+            placeholder: 'Amount of numbers',
+            code: 'a { top: 3.245634px; }\n/**            ↑\n* These decimal places */',
+            value: 0
+        }, {
+            hint: 'Disallow decimal(0)',
+            value: 0
+        }]
+    }, {
+        key: 'number-leading-zero',
+        hint: 'Require or disallow a leading zero for fractional numbers',
+        variants: [{
+            code: 'a {\n line-height: <mark>0</mark>.5; \n}',
+            value: "always"
+        }, {
+            code: 'a {\n line-height: .5; \n}',
+            value: "never"
+        }]
+    }, {
         key: 'function-whitespace-after',
         hint: 'Require or disallow whitespace after functions',
         variants: [{
@@ -112,7 +374,7 @@ new StyleLintOncogene({
         hint: 'Functions whitelist(e.g. rgba, scale)',
         variants: [{
             input: true,
-            valueType: "array",
+            valueType: 'array',
             hint: 'Write functions names in space',
             value: []
         }, {
@@ -140,7 +402,7 @@ new StyleLintOncogene({
             value: 'always'
         }, {
             hint: 'Allow',
-           	code: 'a {\n   background: url(x.jpg); \n}',
+            code: 'a {\n   background: url(x.jpg); \n}',
             value: 'never'
         }]
     }, {
@@ -152,7 +414,7 @@ new StyleLintOncogene({
             value: 'always'
         }, {
             hint: 'Never',
-           	code: 'a {\n  background-image: url(image.gif); \n}',
+            code: 'a {\n  background-image: url(image.gif); \n}',
             value: 'never'
         }]
     }, {
