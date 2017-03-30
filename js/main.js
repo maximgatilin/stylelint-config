@@ -98,6 +98,342 @@ class StyleLintOncogene extends Oncogene {
 new StyleLintOncogene({
     selector: '.oncogene',
     steps: [{
+        key: 'declaration-block-trailing-semicolon',
+        hint: 'Require or disallow a trailing semicolon within declaration blocks',
+        variants: [{
+            hint: 'Always',
+            code: 'a { color: pink<mark>;</mark> }\na { background: orange; color: pink<mark>;</mark> }',
+            value: "always"
+        }, {
+            hint: 'Never',
+             code: 'a { color: pink }\na { background: orange; color: pink }',
+            value: "never"
+        }]
+    }, {
+        key: 'declaration-block-single-line-max-declarations',
+        hint: 'Limit the number of declaration within a single line declaration block(int)',
+        variants: [{
+            input: true,
+            valueType: "int",
+            placeholder: 'Amount of declarations',
+            code: 'a { color: pink; top: 0; }\n/** ↑            ↑\n * The number of these declarations */',
+            value: '0'
+        }, {
+            hint: 'No single lines(0). You can also dismiss this step.',
+            value: 0
+        }]
+    }, {
+        key: 'declaration-block-semicolon-space-before',
+        hint: 'Require a single space or disallow whitespace before the semicolons of declaration blocks',
+        variants: [{
+            hint: 'Always',
+            code: 'a { color: pink<mark> </mark>; }',
+            value: "always"
+        }, {
+            hint: 'Never',
+            code: 'a { color: pink; }',
+            value: "never"
+        }, {
+            hint: 'Always in single-line',
+            code: 'a { color: pink<mark> </mark>; }\na { color: pink; top: 0; }',
+            value: "always-single-line"
+        }, {
+            hint: 'Never in single-line',
+            code: 'a { color: pink; }\na { color: pink; top: 0; }',
+            value: "never-single-line"
+        }]
+    }, {
+        key: 'declaration-block-semicolon-space-after',
+        hint: 'Require a single space or disallow whitespace after the semicolons of declaration blocks',
+        variants: [{
+            hint: 'Always',
+            code: 'a { color: pink;}\na { color: pink;<mark> </mark>top: 0; }',
+            value: "always"
+        }, {
+            hint: 'Never',
+            code: 'a { color: pink;}\na { color: pink;top: 0; }',
+            value: "never"
+        }, {
+            hint: 'Always in single-line',
+            code: 'a { color: pink;<mark> </mark>top: 0; }\n\na {\n  color: pink;\n  top: 0;\n}',
+            value: "always-single-line"
+        }, {
+            hint: 'Never in single-line',
+            code: 'a { color: pink;top: 0; }\n\na {\n  color: pink;\n  top: 0;\n}',
+            value: "never-single-line"
+        }]
+    }, {
+        key: 'declaration-block-semicolon-newline-before',
+        hint: 'Require a newline or disallow whitespace before the semicolons of declaration blocks',
+        variants: [{
+            hint: 'Always',
+            code: 'a {\n color: pink\n;}',
+            value: "always"
+        }, {
+            hint: 'Always in multi-line',
+            code: 'a { color: pink; }\n\na {\n color: pink\n ; top: 0;\n}',
+            value: "always-multi-line"
+        }, {
+            hint: 'Never in multi-line',
+            code: 'a { color: pink; top: 0; }\n\na {\n color: pink;\n top:0;\n}',
+            value: "never-multi-line"
+        }]
+    }, {
+        key: 'declaration-block-semicolon-newline-after',
+        hint: 'Require a newline or disallow whitespace after the semicolons of declaration blocks',
+        variants: [{
+            hint: 'Always',
+            code: 'a {\n color: pink;\n top: 0;\n}',
+            value: "always"
+        }, {
+            hint: 'Always in multi-line',
+            code: 'a { color: pink; }\n\na {\n color: pink;\n top: 0;\n}',
+            value: "always-multi-line"
+        }, {
+            hint: 'Never in multi-line',
+            code: 'a { color: pink; top: 0; }\n\na {\n color: pink\n ; top:0;\n}',
+            value: "never-multi-line"
+        }]
+    }, {
+        key: 'declaration-block-no-redundant-longhand-properties',
+        hint: 'Disallow longhand properties that can be combined into one shorthand property',
+        variants: [{
+            hint: 'Disallow',
+            code: 'a {\n margin: 1px 2px 3px 4px; \n}',
+            value: true
+        }, {
+            hint: 'Allow',
+            code: 'a {\n margin-top: 1px;\n margin-right: 2px;\n margin-bottom: 3px;\n margin-left: 4px; \n}',
+            value: false
+        }]
+    }, {
+        key: 'declaration-block-no-duplicate-properties',
+        hint: 'Disallow duplicate properties within declaration blocks',
+        variants: [{
+            hint: 'Disallow',
+            code: 'a {\n color: pink; \n}',
+            value: true
+        }, {
+            hint: 'Allow',
+            code: 'a {\n color: pink;\n color: orange; \n}',
+            value: false
+        }]
+    }, {
+        key: 'declaration-property-value-whitelist',
+        hint: 'Specify a whitelist of allowed property and value pairs within declarations(e.g. uppercase)',
+        variants: [{
+            input: true,
+            valueType: "array",
+            hint: 'Write properties names in space',
+            value: []
+        }, {
+            hint: 'Empty list(also you can dismiss this step)',
+            value: []
+        }]
+    }, {
+        key: 'declaration-property-value-blacklist',
+        hint: 'Specify a blacklist of disallowed property and value pairs within declarations(e.g. uppercase)',
+        variants: [{
+            input: true,
+            valueType: "array",
+            hint: 'Write properties names in space',
+            value: []
+        }, {
+            hint: 'Empty list(also you can dismiss this step)',
+            value: []
+        }]
+    }, {
+        key: 'declaration-property-unit-whitelist',
+        hint: 'Specify a whitelist of allowed property and unit pairs within declarations(e.g. rem, s)',
+        variants: [{
+            input: true,
+            valueType: "array",
+            hint: 'Write units names in space',
+            value: []
+        }, {
+            hint: 'Empty list(also you can dismiss this step)',
+            value: []
+        }]
+    }, {
+        key: 'declaration-property-unit-blacklist',
+        hint: 'Specify a blacklist of disallowed property and unit pairs within declarations(e.g. rem, s)',
+        variants: [{
+            input: true,
+            valueType: "array",
+            hint: 'Write units names in space',
+            value: []
+        }, {
+            hint: 'Empty list(also you can dismiss this step)',
+            value: []
+        }]
+    }, {
+        key: 'declaration-no-important',
+        hint: 'Disallow !important within declarations.',
+        variants: [{
+            hint: 'Disallow',
+            code: 'a {\n color: pink; \n}',
+            value: true
+        }, {
+            hint: 'Allow',
+            code: 'a {\n color: pink <mark>!important</mark>; \n}',
+            value: false
+        }]
+    }, {
+        key: 'declaration-empty-line-before',
+        hint: 'Require or disallow an empty line before declarations',
+        variants: [{
+            hint: 'Always',
+            code: 'a {\n   bottom: 15px;\n<mark>    </mark>\n   top: 5px; \n}',
+            value: 'always'
+        }, {
+            hint: 'Never',
+            code: 'a {\n   bottom: 15px;\n   top: 5px; \n}',
+            value: 'never'
+        }]
+    }, {
+        key: 'declaration-colon-space-before',
+        hint: 'Require a single space or disallow whitespace before the colon of declarations',
+        variants: [{
+            hint: 'Always',
+            code: 'a {\n color<mark> </mark>: pink; \n}',
+            value: 'always'
+        }, {
+            hint: 'Never',
+            code: 'a {\n color: pink; \n}',
+            value: 'never'
+        }]
+    }, {
+        key: 'declaration-colon-space-after',
+        hint: 'Require a single space or disallow whitespace after the colon of declarations.',
+        variants: [{
+            hint: 'Always',
+            code: 'a { color:<mark> </mark>pink }',
+            value: 'always'
+        }, {
+            hint: 'Never',
+            code: 'a { color:pink }',
+            value: 'never'
+        }, {
+            hint: 'Always in single-line',
+            code: 'a {\n color:<mark> </mark>pink;\n box-shadow:0 0 0 1px #5b9dd9, \n  0 0 2px 1px rgba(30, 140, 190, 0.8); \n}',
+            value: 'always-single-line'
+        }]
+    }, {
+        key: 'declaration-colon-newline-after',
+        hint: 'Require a newline or disallow whitespace after the colon of declarations',
+        variants: [{
+            hint: 'Always',
+            code: 'a {\n color:<mark> </mark>\n  pink; \n}',
+            value: 'always'
+        }, {
+            hint: 'Always in multi-line',
+            code: 'a {\n color: pink;\n box-shadow:<mark> </mark>\n  0 0 0 1px #5b9dd9, \n  0 0 2px 1px rgba(30, 140, 190, 0.8); \n}',
+            value: 'always-multi-line'
+        }]
+    }, {
+        key: 'declaration-bang-space-before',
+        hint: 'Require a single space or disallow whitespace before the bang of declarations',
+        variants: [{
+            hint: 'Always',
+            code: 'a {\n color: pink<mark> </mark>!important; \n}',
+            value: 'always'
+        }, {
+            hint: 'Never',
+            code: 'a {\n color: pink!important; \n}',
+            value: 'never'
+        }]
+    }, {
+        key: 'declaration-bang-space-after',
+        hint: 'Require a single space or disallow whitespace after the bang of declarations',
+        variants: [{
+            hint: 'Always',
+            code: 'a {\n color: pink !<mark> </mark>important; \n}',
+            value: 'always'
+        }, {
+            hint: 'Never',
+            code: 'a {\n color: pink !important; \n}',
+            value: 'never'
+        }]
+    }, {
+        key: 'keyframe-declaration-no-important',
+        hint: 'Disallow !important within keyframe declarations',
+        variants: [{
+            hint: 'Disallow',
+            code: '@keyframes important1 {\n   from { margin: 10px }\n   to { margin: 20px }\n}',
+            value: true
+        }, {
+            hint: 'Allow',
+            code: '@keyframes important1 {\n   from { margin: 10px }\n   to { margin: 20px <mark>!important</mark> }\n}',
+            value: false
+        }]
+    }, {
+        key: 'property-whitelist',
+        hint: 'Specify a whitelist of allowed properties.',
+        variants: [{
+            input: true,
+            valueType: "array",
+            hint: 'Write properties names in space',
+            value: []
+        }, {
+            hint: 'Empty list(also you can dismiss this step)',
+            value: []
+        }]
+    }, {
+        key: 'property-no-vendor-prefix',
+        hint: 'Disallow vendor prefixes for properties',
+        variants: [{
+            hint: 'Disallow',
+            code: 'a { \n   transform: scale(1); \n}',
+            value: true
+        }, {
+            hint: 'Allow',
+            code: 'a { \n   <mark>-webkit-</mark>transform: scale(1); \n}',
+            value: false
+        }]
+    }, {
+        key: 'property-no-unknown',
+        hint: 'Disallow unknown properties',
+        variants: [{
+            hint: 'Disallow',
+            value: true
+        }, {
+            hint: 'Allow',
+            code: 'a {\n  <mark>my-property</mark>: block; \n}',
+            value: false
+        }]
+    }, {
+        key: 'property-case',
+        hint: 'Specify lowercase or uppercase for properties',
+        variants: [{
+            code: 'a {\n  <mark>display</mark>: block; \n}',
+            value: "lower"
+        }, {
+            code: 'a {\n  <mark>DISPLAY</mark>: block; \n}',
+            value: "upper"
+        }]
+    }, {
+        key: 'property-blacklist',
+        hint: 'Specify a blacklist of disallowed properties(e.g. animation, text-rendering)',
+        variants: [{
+            input: true,
+            valueType: "array",
+            hint: 'Write properties names in space',
+            value: []
+        }, {
+            hint: 'Empty list(also you can dismiss this step)',
+            value: []
+        }]
+    }, {
+        key: 'shorthand-property-no-redundant-values',
+        hint: 'Disallow redundant values in shorthand properties',
+        variants: [{
+            code: 'a {\n  margin: 1px; \n}',
+            value: true
+        }, {
+            code: 'a {\n  margin: 1px 1px 1px 1px; \n}',
+            value: false
+        }]
+    }, {
         key: 'custom-property-pattern',
         hint: 'Specify a pattern for custom properties(string|regexp)',
         variants: [{
