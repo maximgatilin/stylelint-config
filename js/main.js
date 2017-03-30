@@ -98,6 +98,681 @@ class StyleLintOncogene extends Oncogene {
 new StyleLintOncogene({
     selector: '.oncogene',
     steps: [{
+        key: 'rule-empty-line-before',
+        hint: 'Require or disallow an empty line before rules',
+        variants: [{
+            hint: 'Always',
+            code: 'a {}\n\nb {}',
+            value: 'always'
+        }, {
+            hint: 'Never',
+            code: 'a {}\nb {}',
+            value: 'never'
+        }, {
+            hint: 'Always in multi-line',
+            code: 'a {\n  color: red;\n}\n\nb {\n  color: blue;\n}',
+            value: 'always-multi-line'
+        }, {
+            hint: 'Never in multi-line',
+            code: 'a {\n  color: red;\n}\nb {\n  color: blue;\n}',
+            value: 'never-multi-line'
+        }]
+    }, {
+        key: 'selector-list-comma-space-before',
+        hint: 'Require a single space or disallow whitespace before the commas of selector lists',
+        variants: [{
+            hint: 'Always',
+            code: 'a<mark> </mark>,b { color: pink; }',
+            value: 'always'
+        }, {
+            hint: 'Never',
+            code: 'a,b { color: pink; }',
+            value: 'never'
+        }, {
+            hint: 'Always in single-line',
+            code: 'a<mark> </mark>,b { color: pink; }\n\na,\nb { color: pink; }',
+            value: ''
+        }, {
+            hint: 'Never in single-line',
+            code: 'a,b { color: pink; }\n\na ,\nb { color: pink; }',
+            value: 'never-single-line'
+        }]
+    }, {
+        key: 'selector-list-comma-space-after',
+        hint: 'Require a single space or disallow whitespace after the commas of selector lists',
+        variants: [{
+            hint: 'Always',
+            code: 'a,<mark> </mark>b { color: pink; }',
+            value: 'always'
+        }, {
+            hint: 'Never',
+            code: 'a,b { color: pink; }',
+            value: 'never'
+        }, {
+            hint: 'Always in single-line',
+            code: 'a,<mark> </mark>b { color: pink; }\n\na\n,b { color: pink; }',
+            value: 'always-single-line'
+        }, {
+            hint: 'Never in single-line',
+            code: 'a,b { color: pink; }\n\na\n, b { color: pink; }',
+            value: 'never-single-line'
+        }]
+    }, {
+        key: 'selector-list-comma-newline-before',
+        hint: 'Require a newline or disallow whitespace before the commas of selector lists',
+        variants: [{
+            hint: 'Always',
+            code: 'a\n, b { color: pink; }\n\na\n,b { color: pink; }',
+            value: 'always'
+        }, {
+            hint: 'Always in multi-line',
+            code: 'a, b { color: pink; }\n\na\n,b { color: pink; }',
+            value: 'always-multi-line'
+        }, {
+            hint: 'Never in multi-line',
+            code: 'a,b { color: pink; }\n\na,\nb { color: pink; }',
+            value: 'never-multi-line'
+        }]
+    }, {
+        key: 'selector-list-comma-newline-after',
+        hint: 'Require a newline or disallow whitespace after the commas of selector lists',
+        variants: [{
+            hint: 'Always',
+            code: 'a,\nb { color: pink; }',
+            value: 'always'
+        }, {
+            hint: 'Always in multi-line',
+            code: 'a, b { color: pink; }\n\na,\nb { color: pink; }',
+            value: 'always-multi-line'
+        }, {
+            hint: 'Never in multi-line',
+            code: 'a,b { color: pink; }\n\na\n,b { color: pink; }',
+            value: 'never-multi-line'
+        }]
+    }, {
+        key: 'selector-max-empty-lines',
+        hint: 'Limit the number of adjacent empty lines within selectors(int)',
+        variants: [{
+            input: true,
+            valueType: "int",
+            placeholder: 'Amount of lines',
+            code: 'a,\n              /* ← */\nb {        /* ↑ */\n  color: red; /* ↑ */\n}             /* ↑ */\n/**              ↑\n *        This empty line */',
+            value: 0
+        }, {
+            hint: 'No empty lines(0). You can also dismiss this step.',
+            value: 0
+        }]
+    }, {
+        key: 'selector-type-no-unknown',
+        hint: 'Disallow unknown pseudo-element selectors',
+        variants: [{
+            hint: 'Disallow',
+            value: true
+        }, {
+            hint: 'Allow',
+            code: 'unknown {}',
+            value: false
+        }]
+    }, {
+        key: 'selector-type-case',
+        hint: 'Specify lowercase or uppercase for type selectors',
+        variants: [{
+            hint: 'Lower',
+            code: 'li {}',
+            value: 'lower'
+        }, {
+            hint: 'Upper',
+            code: 'LI {}',
+            value: 'upper'
+        }]
+    }, {
+        key: 'selector-pseudo-element-no-unknown',
+        hint: 'Disallow unknown pseudo-element selectors',
+        variants: [{
+            hint: 'Disallow',
+            value: true
+        }, {
+            hint: 'Allow',
+            code: 'a::unknown {}',
+            value: false
+        }]
+    }, {
+        key: 'selector-pseudo-element-colon-notation',
+        hint: 'Specify single or double colon notation for applicable pseudo-elements',
+        variants: [{
+            code: 'a<mark>:</mark>before { color: pink; }',
+            value: 'single'
+        }, {
+            code: 'a<mark>::</mark>before { color: pink; }',
+            value: 'double'
+        }]
+    }, {
+        key: 'selector-pseudo-element-case',
+        hint: 'Specify lowercase or uppercase for pseudo-element selectors',
+        variants: [{
+            hint: 'Lower',
+            code: 'a:before {}',
+            value: 'lower'
+        }, {
+            hint: 'Upper',
+            code: 'a:BEFORE {}',
+            value: 'upper'
+        }]
+    }, {
+        key: 'selector-pseudo-class-whitelist',
+        hint: 'Specify a whitelist of allowed pseudo-class selectors',
+        variants: [{
+            input: true,
+            valueType: "array",
+            hint: 'Write classes names in space',
+            value: []
+        }, {
+            hint: 'Empty list(also you can dismiss this step)',
+            value: []
+        }]
+    }, {
+        key: 'selector-pseudo-class-parentheses-space-inside',
+        hint: 'Require a single space or disallow whitespace on the inside of the parentheses within pseudo-class selectors',
+        variants: [{
+            hint: 'Always',
+            code: 'input:not(<mark> </mark>[type="submit"]<mark> </mark>) {}',
+            value: 'always'
+        }, {
+            hint: 'Never',
+            code: 'input:not([type="submit"]) {}',
+            value: 'never'
+        }]
+    }, {
+        key: 'selector-pseudo-class-no-unknown',
+        hint: 'Disallow unknown pseudo-class selectors',
+        variants: [{
+            hint: 'Disallow',
+            value: true
+        }, {
+            hint: 'Allow',
+            code: 'a:<mark>unknown</mark> {}',
+            value: false
+        }]
+    }, {
+        key: 'selector-pseudo-class-case',
+        hint: 'Specify lowercase or uppercase for pseudo-class selectors',
+        variants: [{
+            hint: 'Lower',
+            code: 'a:hover {}',
+            value: 'lower'
+        }, {
+            hint: 'Upper',
+            code: 'a:HOVER {}',
+            value: 'upper'
+        }]
+    }, {
+        key: 'selector-pseudo-class-blacklist',
+        hint: 'Specify a blacklist of disallowed pseudo-class selectors.',
+        variants: [{
+            input: true,
+            valueType: "array",
+            hint: 'Write classes names in space',
+            value: []
+        }, {
+            hint: 'Empty list(also you can dismiss this step)',
+            value: []
+        }]
+    }, {
+        key: 'selector-no-vendor-prefix',
+        hint: 'Disallow vendor prefixes for selectors',
+        variants: [{
+            hint: 'Disallow',
+            code: 'input::placeholder {}',
+            value: true
+        }, {
+            hint: 'Allow',
+            code: 'input::<mark>-moz-</mark>placeholder {}',
+            value: false
+        }]
+    }, {
+        key: 'selector-no-universal',
+        hint: 'Disallow the universal selector',
+        variants: [{
+            hint: 'Disallow',
+            value: true
+        }, {
+            hint: 'Allow',
+            code: '<mark>*</mark> {}',
+            value: false
+        }]
+    }, {
+        key: 'selector-no-type',
+        hint: 'Disallow type selectors',
+        variants: [{
+            hint: 'Disallow',
+            code: '.foo {}',
+            value: true
+        }, {
+            hint: 'Allow',
+            code: '<mark>a</mark> {}',
+            value: false
+        }]
+    }, {
+        key: 'selector-no-qualifying-type',
+        hint: 'Disallow qualifying a selector by type',
+        variants: [{
+            hint: 'Disallow',
+            code: '.foo {\n  margin: 0\n}',
+            value: true
+        }, {
+            hint: 'Allow',
+            code: '<mark>a</mark>.foo {\n  margin: 0\n}',
+            value: false
+        }]
+    }, {
+        key: 'selector-no-id',
+        hint: 'Disallow id selectors',
+        variants: [{
+            hint: 'Disallow',
+            value: true
+        }, {
+            hint: 'Allow',
+            code: '    #foo {}\n/** ↑\n * This type of selector */',
+            value: false
+        }]
+    }, {
+        key: 'selector-no-combinator',
+        hint: 'Disallow combinators in selectors',
+        variants: [{
+            hint: 'Disallow',
+            value: true
+        }, {
+            hint: 'Allow',
+            code: '  a > b + c ~ d e { color: pink; }\n/** ↑   ↑   ↑  ↑\n * These are combinators */',
+            value: false
+        }]
+    }, {
+        key: 'selector-no-attribute',
+        hint: 'Disallow attribute selectors',
+        variants: [{
+            hint: 'Disallow',
+            value: true
+        }, {
+            hint: 'Allow',
+            code: '[foo] {}',
+            value: false
+        }]
+    }, {
+        key: 'selector-nested-pattern',
+        hint: 'Specify a pattern for the selectors of rules nested within rules',
+        variants: [{
+            input: true,
+            valueType: "string",
+            placeholder: 'Write pattern here',
+            code: '    a {\n      color: orange;\n      &:hover { color: pink; }\n    } ↑\n/**   ↑\n * These nested selectors */',
+            value: ""
+        }, {
+            hint: 'No pattern(""). You can also dismiss this step.',
+            value: ""
+        }]
+    }, {
+        key: 'selector-max-specificity',
+        hint: 'Limit the specificity of selectors',
+        variants: [{
+            input: true,
+            valueType: "string",
+            placeholder: 'Specificity amount',
+            code: '    .foo, #bar.baz span, #hoo { color: pink; }\n/** ↑     ↑              ↑\n * Each of these selectors */',
+            value: ""
+        }, {
+            hint: 'No specificity(""). You can also dismiss this step.',
+            value: ""
+        }]
+    }, {
+        key: 'selector-max-compound-selectors',
+        hint: 'Limit the number of compound selectors in a selector(int)',
+        variants: [{
+            input: true,
+            valueType: "int",
+            placeholder: 'Amount of levels',
+            code: '   div .bar[data-val] > a.baz + .boom > #lorem {}\n/* ↑   ↑                ↑       ↑       ↑\n   |   |                |       |       |\n  Lv1 Lv2              Lv3     Lv4     Lv5\n these are compound selectors */',
+            value: 0
+        }, {
+            hint: 'No levels(0). You can also dismiss this step.',
+            value: 0
+        }]
+    }, {
+        key: 'selector-id-pattern',
+        hint: 'Specify a pattern for id selectors(string|regexp)',
+        variants: [{
+            input: true,
+            valueType: "string",
+            placeholder: 'Write pattern here',
+            code: 'Example "foo-[a-z]+" \n#<mark>foo-bar</mark> {}\n',
+            value: ''
+        }, {
+            hint: 'No pattern(""). You can also dismiss this step.',
+            value: ''
+        }]
+    }, {
+        key: 'selector-descendant-combinator-no-non-space',
+        hint: 'Disallow non-space characters for descendant combinators of selectors',
+        variants: [{
+            code: '.foo .bar {}',
+            value: true
+        }, {
+            code: '.foo <mark> </mark>.bar {}',
+            value: false
+        }]
+    }, {
+        key: 'selector-combinator-space-after',
+        hint: 'Require a single space or disallow whitespace after the combinators of selectors',
+        variants: [{
+            hint: 'Always',
+            code: 'a +<mark> </mark>b { color: pink; }',
+            value: "always"
+        }, {
+            hint: 'Never',
+            code: 'a +b { color: pink; }',
+            value: "never"
+        }]
+    }, {
+        key: 'selector-class-pattern',
+        hint: 'Specify a pattern for class selectors(string|regexp)',
+        variants: [{
+            input: true,
+            valueType: "string",
+            placeholder: 'Write pattern here',
+            code: 'Example "foo-[a-z]+" \n\n.<mark>foo-bar</mark> {}',
+            value: ''
+        }, {
+            hint: 'No pattern(""). You can also dismiss this step.',
+            value: ''
+        }]
+    }, {
+        key: 'selector-attribute-quotes',
+        hint: 'Require or disallow quotes for attribute values',
+        variants: [{
+            hint: 'Always',
+            code: '[target=<mark>"</mark>_blank<mark>"</mark>] {}',
+            value: "always"
+        }, {
+            hint: 'Never',
+            code: '[target=_blank] {}',
+            value: "never"
+        }]
+    }, {
+        key: 'selector-attribute-operator-whitelist',
+        hint: 'Specify a whitelist of allowed attribute operators(e.g. "*=")',
+        variants: [{
+            input: true,
+            valueType: "array",
+            hint: 'Write operators names in space',
+            value: []
+        }, {
+            hint: 'Empty list(also you can dismiss this step)',
+            value: []
+        }]
+    }, {
+        key: 'selector-attribute-operator-space-before',
+        hint: 'Require a single space or disallow whitespace before operators within attribute selectors',
+        variants: [{
+            hint: 'Always',
+            code: '[target<mark> </mark>= "_blank"] {}',
+            value: "always"
+        }, {
+            hint: 'Never',
+            code: '[target= "_blank"] {}',
+            value: "never"
+        }]
+    }, {
+        key: 'selector-attribute-operator-space-after',
+        hint: 'Require a single space or disallow whitespace after operators within attribute selectors',
+        variants: [{
+            hint: 'Always',
+            code: '[target =<mark> </mark>"_blank"] {}',
+            value: "always"
+        }, {
+            hint: 'Never',
+            code: '[target ="_blank"] {}',
+            value: "never"
+        }]
+    }, {
+        key: 'selector-attribute-operator-blacklist',
+        hint: 'Specify a blacklist of disallowed attribute operators(e.g. "*=")',
+        variants: [{
+            input: true,
+            valueType: "array",
+            hint: 'Write operators names in space',
+            value: []
+        }, {
+            hint: 'Empty list(also you can dismiss this step)',
+            value: []
+        }]
+    }, {
+        key: 'selector-attribute-brackets-space-inside',
+        hint: 'Require a single space or disallow whitespace on the inside of the brackets within attribute selectors',
+        variants: [{
+            hint: 'Always',
+            code: '[ target=_blank ] {}',
+            value: "always"
+        }, {
+            hint: 'Never',
+            code: '[target=_blank] {}',
+            value: "never"
+        }]
+    }, {
+        key: 'block-opening-brace-space-after',
+        hint: 'Require a single space or disallow whitespace before the opening brace of blocks',
+        variants: [{
+            hint: 'Always',
+            code: 'a { color: pink; }\n\na {\ncolor: pink; }',
+            value: 'always'
+        }, {
+            hint: 'Never',
+            code: 'a{ color: pink; }\n\na{\ncolor: pink; }',
+            value: 'never'
+        }, {
+            hint: 'Always in single-line',
+            code: 'a { color: pink; }\n\na{\ncolor: pink; }',
+            value: 'always-single-line'
+        }, {
+            hint: 'Never in single-line',
+            code: 'a{ color: pink; }\n\na {\ncolor: pink; }',
+            value: 'never-single-line'
+        }, {
+            hint: 'Always in multi-line',
+            code: 'a{ color: pink; }\n\na {\ncolor: pink; }',
+            value: 'always-multi-line'
+        }, {
+            hint: 'Never in multi-line',
+            code: 'a { color: pink; }\n\na{\ncolor: pink;}',
+            value: 'never-multi-line'
+        }]
+    }, {
+        key: 'block-opening-brace-space-after',
+        hint: 'Require a single space or disallow whitespace after the opening brace of blocks',
+        variants: [{
+            hint: 'Always',
+            code: 'a { color: pink; }\n\na { color: pink;\n}',
+            value: 'always'
+        }, {
+            hint: 'Never',
+            code: 'a {color: pink; }\n\na\n{color: pink; }',
+            value: 'never'
+        }, {
+            hint: 'Always in single-line',
+            code: 'a { color: pink; }\n\na {color: pink;\n}',
+            value: 'always-single-line'
+        }, {
+            hint: 'Never in single-line',
+            code: 'a {color: pink; }\n\na { color: pink;\n}',
+            value: 'never-single-line'
+        }, {
+            hint: 'Always in multi-line',
+            code: 'a {color: pink; }\n\na { color: pink;\n}',
+            value: 'always-multi-line'
+        }, {
+            hint: 'Never in multi-line',
+            code: 'a { color: pink; }\n\na {color: pink;\n}',
+            value: 'never-multi-line'
+        }]
+    }, {
+        key: 'block-opening-brace-newline-before',
+        hint: 'Require a newline or disallow whitespace before the opening brace of blocks',
+        variants: [{
+            hint: 'Always',
+            code: 'a\n{ color: pink; }\n\na\n{\ncolor: pink; }',
+            value: 'always'
+        }, {
+            hint: 'Always in single-line',
+            code: 'a\n{ color: pink; }\n\na{\ncolor: pink; }',
+            value: 'always-single-line'
+        }, {
+            hint: 'Never in single-line',
+            code: 'a{ color: pink; }\n\na {\ncolor: pink; }',
+            value: 'never-single-line'
+        }, {
+            hint: 'Always in multi-line',
+            code: 'a { color: pink; }\n\na\n{ color: pink; }',
+            value: 'always-multi-line'
+        }, {
+            hint: 'Never in multi-line',
+            code: 'a { color: pink; }\n\na{\ncolor: pink;}',
+            value: 'never-multi-line'
+        }]
+    }, {
+        key: 'block-opening-brace-newline-after',
+        hint: 'Require a newline after the opening brace of blocks',
+        variants: [{
+            hint: 'Always',
+            code: 'a {\ncolor: pink; }\n\na\n{\ncolor: pink; }',
+            value: 'always'
+        }, {
+            hint: 'Always in multi-line',
+            code: 'a { color: pink; }\n\na {\ncolor: pink; }',
+            value: 'always-multi-line'
+        }, {
+            hint: 'Never in multi-line',
+            code: 'a { color: pink; }\n\na {color: pink;\n}',
+            value: 'never-multi-line'
+        }]
+    }, {
+        key: 'block-no-empty',
+        hint: 'Disallow empty blocks',
+        variants: [{
+            hint: 'Disallow',
+            code: 'a { color: pink; }',
+            value: true
+        }, {
+            hint: 'Allow',
+            code: 'a { }',
+            value: false
+        }]
+    }, {
+        key: 'block-closing-brace-space-before',
+        hint: 'Require a single space or disallow whitespace before the closing brace of blocks',
+        variants: [{
+            hint: 'Always',
+            code: 'a { color: pink; }',
+            value: 'always'
+        }, {
+            hint: 'Never',
+            code: 'a{ color: pink;}',
+            value: 'never'
+        }, {
+            hint: 'Always in single-line',
+            code: 'a { color: pink; }\n\na {\ncolor: pink;}',
+            value: 'always-single-line'
+        }, {
+            hint: 'Never in single-line',
+            code: 'a { color: pink;}\n\na {\ncolor: pink; }',
+            value: 'never-single-line'
+        }, {
+            hint: 'Always in multi-line',
+            code: 'a { color: pink;}\n\na {\ncolor: pink; }',
+            value: 'always-multi-line'
+        }, {
+            hint: 'Never in multi-line',
+            code: 'a { color: pink; }\n\na {\ncolor: pink;}',
+            value: 'never-multi-line'
+        }]
+    }, {
+        key: 'block-closing-brace-space-after',
+        hint: 'Require a single space or disallow whitespace after the closing brace of blocks',
+        variants: [{
+            hint: 'Always',
+            code: 'a { color: pink; } b { color: red; }',
+            value: 'always'
+        }, {
+            hint: 'Never',
+            code: 'a { color: pink; }b { color: red; }\n\na { color: pink;\n}b { color: red; }',
+            value: 'never'
+        }, {
+            hint: 'Always in single-line',
+            code: 'a { color: pink; } b { color: red; }\n\na { color: pink;\n}b { color: red; }',
+            value: 'always-single-line'
+        }, {
+            hint: 'Never in single-line',
+            code: 'a { color: pink; }b { color: red; }\n\na { color: pink;\n} b { color: red; }',
+            value: 'never-single-line'
+        }, {
+            hint: 'Always in multi-line',
+            code: 'a { color: pink; }b { color: red; }\n\na { color: pink;\n} b { color: red; }',
+            value: 'always-multi-line'
+        }, {
+            hint: 'Never in multi-line',
+            code: 'a { color: pink; } b { color: red; }\n\na { color: pink;\n}b { color: red; }',
+            value: 'never-multi-line'
+        }]
+    }, {
+        key: 'block-closing-brace-newline-before',
+        hint: 'Require a newline or disallow whitespace before the closing brace of blocks',
+        variants: [{
+            hint: 'Always',
+            code: 'a { color: pink;\n}\n\na {\ncolor: pink;\n}',
+            value: 'always'
+        }, {
+            hint: 'Always in multi-line',
+            code: 'a { color: pink; }\n\na { color: pink;\n}',
+            value: 'always-multi-line'
+        }, {
+            hint: 'Never in multi-line',
+            code: 'a { color: pink; }\n\na {\ncolor: pink;}',
+            value: 'never-multi-line'
+        }]
+    }, {
+        key: 'block-closing-brace-newline-after',
+        hint: 'Require a newline or disallow whitespace after the closing brace of blocks.',
+        variants: [{
+            hint: 'Always',
+            code: 'a { color: pink; }\nb { color: red; }',
+            value: 'always'
+        }, {
+            hint: 'Always in single-line',
+            code: 'a { color: pink;\n} b { color: red; }\n\na { color: pink; }\nb { color: red; }',
+            value: 'always-single-line'
+        }, {
+            hint: 'Never in single-line',
+            code: 'a { color: pink; }b { color: red; }\n\na { color: pink;\n} b { color: red; }',
+            value: 'never-single-line'
+        }, {
+            hint: 'Always in multi-line',
+            code: 'a { color: pink; }b { color: red; }\n\na { color: pink;\n}\nb { color: red; }',
+            value: 'always-multi-line'
+        }, {
+            hint: 'Never in multi-line',
+            code: 'a { color: pink; } b { color: red; }\n\na { color: pink;\n}b { color: red; }',
+            value: 'never-multi-line'
+        }]
+    }, {
+        key: 'block-closing-brace-empty-line-before',
+        hint: 'Require or disallow an empty line before the closing brace of blocks.',
+        variants: [{
+            hint: 'Always in multi-line',
+            code: 'a {\n color: pink;\n<mark> * This line */</mark>\n}\na { color: pink; }',
+            value: "always-multi-line"
+        }, {
+            hint: 'Never',
+            code: 'a {\n color: pink;\n}\na { color: pink; }',
+            value: "never"
+        }]
+    }, {
         key: 'declaration-block-trailing-semicolon',
         hint: 'Require or disallow a trailing semicolon within declaration blocks',
         variants: [{
@@ -106,7 +781,7 @@ new StyleLintOncogene({
             value: "always"
         }, {
             hint: 'Never',
-             code: 'a { color: pink }\na { background: orange; color: pink }',
+            code: 'a { color: pink }\na { background: orange; color: pink }',
             value: "never"
         }]
     }, {
