@@ -1,7 +1,6 @@
 var options = {
     selector: '.oncogene',
-    dismissBtn: '.js-dismiss-btn',
-    config: { rules: {} },
+    config: { "extends": "stylelint-config-standard", rules: {} },
     skipValidation: true,
     steps: [{
         key: 'no-missing-end-of-source-newline',
