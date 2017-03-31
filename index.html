@@ -4,8 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Stylelint generator</title>
-    <script src="js/oncogene.js"></script>
-    <script src="js/main.js" async defer></script>
     <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -21,19 +19,22 @@
         </div>
         <div class="ui">
             <ul class="ui__buttons-list">
+                <!-- <li class="ui__buttons-item">
+                    <button class="button button--warning js-reset-btn">Reset</button>
+                </li> -->
                 <li class="ui__buttons-item">
-                    <button class="button button--warning">Reset</button>
-                </li>
-                <li class="ui__buttons-item">
-                    <button class="button button--default">Dismiss</button>
+                    <button class="button button--default js-dismiss-btn">Dismiss</button>
                 </li>
             </ul>
         </div>
     </div>
     <footer class="footer">
-    	<a class="footer__link" href="https://github.com/maximgatilin/stylelint-config" target="_blank">Github</a>
+        <a class="footer__link" href="https://github.com/maximgatilin/stylelint-config" target="_blank">Github</a>
     </footer>
-
+    <script src="js/oncogene.js"></script>
+    <script src="js/stylelintOncogene.js"></script>
+    <script src="js/options.js"></script>
+    <script src="js/main.js" async defer></script>
 </body>
 
 </html>
