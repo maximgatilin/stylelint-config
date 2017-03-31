@@ -16,17 +16,30 @@ class StyleLintOncogene extends Oncogene {
         return node;
     }
 
+    createCodeNode(config) {
+        const parent = document.createElement('pre');
+        const codeContainer = document.createElement('code');
+
+        parent.className = config.className;
+        codeContainer.innerHTML = config.code || '';
+        parent.appendChild(codeContainer);
+
+        return parent;
+    }
+
     getVariantNode(variant, inx) {
         const item = this.createNode(this.classes.variants.item);
         const hint = this.createNode(this.classes.variants.hint);
-        const code = this.createNode(this.classes.variants.code);
+        const codeBlock = this.createCodeNode({
+            className: this.classes.variants.code,
+            code: variant.code
+        });
 
         hint.innerHTML = variant.hint || '';
-        code.innerHTML = variant.code || '';
 
         item.dataset.inx = inx;
         item.appendChild(hint);
-        item.appendChild(code);
+        item.appendChild(codeBlock);
 
         if (variant.input === true) {
             let input = this.createInputNode({ type: 'text', placeholder: variant.placeholder, valueType: variant.valueType });
@@ -36,6 +49,10 @@ class StyleLintOncogene extends Oncogene {
         }
 
         item.addEventListener('click', this.variantClickHandler.bind(this));
+
+        if (variant.code !== undefined) {
+            this.highlightCode(codeBlock);
+        }
 
         return item;
     }
@@ -116,5 +133,9 @@ class StyleLintOncogene extends Oncogene {
         }
 
         cur.rules[path.shift()] = value;
+    }
+
+    highlightCode(target) {
+        hljs.highlightBlock(target)
     }
 }

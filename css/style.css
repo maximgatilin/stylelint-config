@@ -87,8 +87,6 @@ body {
     padding: 16px;
     border-radius: 4px;
     cursor: pointer;
-    opacity: .75;
-    transition: opacity .2s ease;
 }
 
 .oncogene-variants__item + .oncogene-variants__item {
@@ -104,22 +102,16 @@ body {
     border: none;
 }
 
-.oncogene-variants__item:hover {
-    opacity: 1;
-}
-
 .oncogene-variants__hint {
     font-size: 14px;
     font-weight: bold;
 }
 
 .oncogene-variants__code {
+    margin-top: 10px;
+    padding: 10px;
     font-family: monospace;
     white-space: pre;
-}
-
-.oncogene-variants__hint + .oncogene-variants__code {
-    padding: 10px 0 0;
 }
 
 .config {
