@@ -6,11 +6,11 @@ var options = {
         key: 'indentation',
         hint: 'Specify indentation',
         variants: [{
-            input: true,
-            hint: 'Spaces(specify number of spaces)',
-            valueType: "int",
-            placeholder: '',
-            value: 0
+            hint: '2 spaces',
+            value: 2
+        }, {
+            hint: '4 spaces',
+            value: 4
         }, {
             hint: 'Tabs',
             value: 'tab'
