@@ -1,7 +1,22 @@
 var options = {
     selector: '.oncogene',
     dismissBtn: '.js-dismiss-btn',
+    config: { rules: {} },
+    skipValidation: true,
     steps: [{
+        key: 'no-missing-end-of-source-newline',
+        hint: 'Disallow missing end-of-source newlines',
+        variants: [{
+            hint: 'Disallow',
+            code: 'a { color: pink; }\n\\n',
+            value: true
+        }, {
+            hint: 'Allow',
+            dismiss: true,
+            code: 'a { color: pink; }',
+            value: false,
+        }]
+    }, {
         key: 'no-unknown-animations',
         hint: 'Disallow unknown animations',
         variants: [{
@@ -11,124 +26,8 @@ var options = {
         }, {
             hint: 'Allow',
             code: 'a { animation-name: <mark>fancccy-slide</mark>; }\n@keyframes <mark>fancy-slide</mark> {}',
-            value: false
-        }]
-    }, {
-        key: 'no-missing-end-of-source-newline',
-        hint: 'Disallow missing end-of-source newlines',
-        variants: [{
-            hint: 'Disallow',
-            code: 'a { color: pink; }\n\\n',
-            value: true
-        }, {
-            hint: 'Allow',
-            code: 'a { color: pink; }',
-            value: false
-        }]
-    }, {
-        key: 'no-invalid-double-slash-comments',
-        hint: 'Disallow double-slash comments (//...) which are not supported by CSS',
-        variants: [{
-            hint: 'Disallow',
-            code: 'a { /* color: pink; */ }',
-            value: true
-        }, {
-            hint: 'Allow',
-            code: 'a { // color: pink; }',
-            value: false
-        }]
-    }, {
-        key: 'no-extra-semicolons',
-        hint: 'Disallow extra semicolons',
-        variants: [{
-            code: '@import "x.css";',
-            value: true
-        }, {
-            hint: 'Allow',
-            code: '@import "x.css";;',
-            value: false
-        }]
-    }, {
-        key: 'no-eol-whitespace',
-        hint: 'Disallow end-of-line whitespace',
-        variants: [{
-            hint: 'Disallow',
-            value: true
-        }, {
-            hint: 'Allow',
-            code: 'a { color: pink; }···\n/**               ↑\n *  This whitespace */',
-            value: false
-        }]
-    }, {
-        key: 'no-empty-source',
-        hint: 'Disallow empty sources',
-        variants: [{
-            hint: 'Disallow',
-            value: true
-        }, {
-            hint: 'Allow',
-            code: '  ···\\n\\t\n/**     ↑\n *  This empty source */',
-            value: false
-        }]
-    }, {
-        key: 'no-descending-specificity',
-        hint: 'Disallow duplicate selectors within a stylesheet',
-        variants: [{
-            hint: 'Disallow',
-            value: true
-        }, {
-            hint: 'Allow',
-            code: '<mark>.foo</mark> {}\n.bar {}\n<mark>.foo</mark> {}',
-            value: false
-        }]
-    }, {
-        key: 'no-descending-specificity',
-        hint: 'Disallow selectors of lower specificity from coming after overriding selectors of higher specificity',
-        variants: [{
-            hint: 'Disallow',
-            code: 'a {}\nb a {}',
-            value: true
-        }, {
-            hint: 'Allow',
-            code: 'b a {}\na {}',
-            value: false
-        }]
-    }, {
-        key: 'max-nesting-depth',
-        hint: 'Limit the allowed nesting depth(int)',
-        variants: [{
-            input: true,
-            valueType: "int",
-            code: 'a { & > b { top: 0; }\n/** ↑\n * This nesting */',
-            value: 0
-        }, {
-            hint: 'No depth(0). You can also dismiss this step.',
-            value: 0
-        }]
-    }, {
-        key: 'max-line-length',
-        hint: 'Limit the length of a line(int)',
-        variants: [{
-            input: true,
-            valueType: "int",
-            code: 'a { color: red }\n/**            ↑\n *       The end */',
-            value: 0
-        }, {
-            hint: 'No length(0). You can also dismiss this step.',
-            value: 0
-        }]
-    }, {
-        key: 'max-empty-lines',
-        hint: 'Limit the number of adjacent empty lines(int)',
-        variants: [{
-            input: true,
-            valueType: "int",
-            placeholder: 'Amount of lines',
-            code: 'a {}\n     /* ← */\n     /* ← */\na {} /* ↑ */\n/**     ↑\n * These lines */',
-            value: 0
-        }, {
-            hint: 'No empty lines(0). You can also dismiss this step.',
-            value: 0
+            value: false,
+            dismiss: true
         }]
     }, {
         key: 'indentation',
@@ -144,15 +43,114 @@ var options = {
             value: 'tab'
         }]
     }, {
+        key: 'max-empty-lines',
+        hint: 'Limit the number of adjacent empty lines(int)',
+        variants: [{
+            input: true,
+            valueType: "int",
+            placeholder: 'Amount of lines',
+            code: 'a {}\n     /* ← */\n     /* ← */\na {} /* ↑ */\n/**     ↑\n * These lines */',
+            value: 0
+        }]
+    }, {
+        key: 'no-invalid-double-slash-comments',
+        hint: 'Disallow double-slash comments (//...) which are not supported by CSS',
+        variants: [{
+            hint: 'Disallow',
+            code: 'a { /* color: pink; */ }',
+            value: true
+        }, {
+            hint: 'Allow',
+            dismiss: true,
+            code: 'a { // color: pink; }',
+            value: false
+        }]
+    }, {
+        key: 'no-extra-semicolons',
+        hint: 'Disallow extra semicolons',
+        variants: [{
+            code: '@import "x.css";',
+            value: true
+        }, {
+            hint: 'Allow',
+            dismiss: true,
+            code: '@import "x.css";;',
+            value: false
+        }]
+    }, {
+        key: 'no-eol-whitespace',
+        hint: 'Disallow end-of-line whitespace',
+        variants: [{
+            hint: 'Disallow',
+            value: true
+        }, {
+            dismiss: true,
+            hint: 'Allow',
+            code: 'a { color: pink; }···\n/**               ↑\n *  This whitespace */',
+            value: false
+        }]
+    }, {
+        key: 'no-empty-source',
+        hint: 'Disallow empty sources',
+        variants: [{
+            hint: 'Disallow',
+            value: true
+        }, {
+            hint: 'Allow',
+            dismiss: true,
+            code: '  ···\\n\\t\n/**     ↑\n *  This empty source */',
+            value: false
+        }]
+    }, {
+        key: 'no-duplicate-selectors',
+        hint: 'Disallow duplicate selectors within a stylesheet',
+        variants: [{
+            hint: 'Disallow',
+            value: true
+        }, {
+            hint: 'Allow',
+            dismiss: true,
+            code: '<mark>.foo</mark> {}\n.bar {}\n<mark>.foo</mark> {}',
+            value: false
+        }]
+    }, {
+        key: 'no-descending-specificity',
+        hint: 'Disallow selectors of lower specificity from coming after overriding selectors of higher specificity',
+        variants: [{
+            hint: 'Disallow',
+            code: 'a {}\nb a {}',
+            value: true
+        }, {
+            hint: 'Allow',
+            dismiss: true,
+            code: 'b a {}\na {}',
+            value: false
+        }]
+    }, {
+        key: 'max-nesting-depth',
+        hint: 'Limit the allowed nesting depth(int)',
+        variants: [{
+            input: true,
+            valueType: "int",
+            code: 'a { & > b { top: 0; }\n/** ↑\n * This nesting */',
+            value: 0
+        }]
+    }, {
+        key: 'max-line-length',
+        hint: 'Limit the length of a line(int)',
+        variants: [{
+            input: true,
+            valueType: "int",
+            code: 'a { color: red }\n/**            ↑\n *       The end */',
+            value: 0
+        }]
+    }, {
         key: 'comment-word-blacklist',
         hint: 'Specify a blacklist of disallowed words within comments(e.g. TODO)',
         variants: [{
             input: true,
             valueType: "array",
             hint: 'Write words in space',
-            value: []
-        }, {
-            hint: 'Empty list(also you can dismiss this step)',
             value: []
         }]
     }, {
@@ -175,6 +173,7 @@ var options = {
         }, {
             hint: 'Allow',
             code: '/* */',
+            dismiss: true,
             value: false
         }]
     }, {
@@ -195,9 +194,6 @@ var options = {
             valueType: "array",
             hint: 'Write at-rules names in space',
             value: []
-        }, {
-            hint: 'Empty list(also you can dismiss this step)',
-            value: []
         }]
     }, {
         key: 'at-rule-semicolon-newline-after',
@@ -207,7 +203,8 @@ var options = {
             value: 'always',
             code: '@import url("x.css");\n@import url("y.css");'
         }, {
-            hint: 'Not specified(You can also dismiss this step)',
+            hint: 'Not specified',
+            dismiss: true,
             code: '@import url("x.css"); @import url("y.css");',
             value: false
         }]
@@ -219,6 +216,7 @@ var options = {
             value: true
         }, {
             hint: 'Allow',
+            dismiss: true,
             code: '@<mark>-webkit-</mark>keyframes { 0% { top: 0; } }',
             value: false
         }]
@@ -230,6 +228,7 @@ var options = {
             value: true
         }, {
             hint: 'Allow',
+            dismiss: true,
             code: '<mark>@unknown</mark> {}',
             value: false
         }]
@@ -284,9 +283,6 @@ var options = {
             input: true,
             valueType: "array",
             hint: 'Write at-rules names in space',
-            value: []
-        }, {
-            hint: 'Empty list(also you can dismiss this step)',
             value: []
         }]
     }, {
@@ -370,9 +366,6 @@ var options = {
             placeholder: 'Write pattern here',
             code: '@custom-media --foo (max-width: 30em);\n/**             ↑\n * The pattern of this */',
             value: ""
-        }, {
-            hint: 'No pattern(""). You can also dismiss this step.',
-            value: ""
         }]
     }, {
         key: 'media-feature-range-operator-space-before',
@@ -412,9 +405,6 @@ var options = {
             valueType: "array",
             hint: 'Write features names in space',
             value: []
-        }, {
-            hint: 'Empty list(also you can dismiss this step)',
-            value: []
         }]
     }, {
         key: 'media-feature-name-no-vendor-prefix',
@@ -425,6 +415,7 @@ var options = {
             value: true
         }, {
             hint: 'Allow',
+            dismiss: true,
             code: '@media (<mark>-webkit-</mark>min-device-pixel-ratio: 1) {}',
             value: false
         }]
@@ -436,6 +427,7 @@ var options = {
             value: true
         }, {
             hint: 'Allow',
+            dismiss: true,
             code: '@media screen and (<mark>unknown</mark>) {}',
             value: false
         }]
@@ -456,9 +448,6 @@ var options = {
             input: true,
             valueType: "array",
             hint: 'Write features names in space',
-            value: []
-        }, {
-            hint: 'Empty list(also you can dismiss this step)',
             value: []
         }]
     }, {
@@ -582,9 +571,6 @@ var options = {
             placeholder: 'Amount of lines',
             code: 'a,\n              /* ← */\nb {        /* ↑ */\n  color: red; /* ↑ */\n}             /* ↑ */\n/**              ↑\n *        This empty line */',
             value: 0
-        }, {
-            hint: 'No empty lines(0). You can also dismiss this step.',
-            value: 0
         }]
     }, {
         key: 'selector-type-no-unknown',
@@ -594,6 +580,7 @@ var options = {
             value: true
         }, {
             hint: 'Allow',
+            dismiss: true,
             code: 'unknown {}',
             value: false
         }]
@@ -617,6 +604,7 @@ var options = {
             value: true
         }, {
             hint: 'Allow',
+            dismiss: true,
             code: 'a::unknown {}',
             value: false
         }]
@@ -650,9 +638,6 @@ var options = {
             valueType: "array",
             hint: 'Write classes names in space',
             value: []
-        }, {
-            hint: 'Empty list(also you can dismiss this step)',
-            value: []
         }]
     }, {
         key: 'selector-pseudo-class-parentheses-space-inside',
@@ -674,6 +659,7 @@ var options = {
             value: true
         }, {
             hint: 'Allow',
+            dismiss: true,
             code: 'a:<mark>unknown</mark> {}',
             value: false
         }]
@@ -697,9 +683,6 @@ var options = {
             valueType: "array",
             hint: 'Write classes names in space',
             value: []
-        }, {
-            hint: 'Empty list(also you can dismiss this step)',
-            value: []
         }]
     }, {
         key: 'selector-no-vendor-prefix',
@@ -710,6 +693,7 @@ var options = {
             value: true
         }, {
             hint: 'Allow',
+            dismiss: true,
             code: 'input::<mark>-moz-</mark>placeholder {}',
             value: false
         }]
@@ -721,6 +705,7 @@ var options = {
             value: true
         }, {
             hint: 'Allow',
+            dismiss: true,
             code: '<mark>*</mark> {}',
             value: false
         }]
@@ -733,6 +718,7 @@ var options = {
             value: true
         }, {
             hint: 'Allow',
+            dismiss: true,
             code: '<mark>a</mark> {}',
             value: false
         }]
@@ -745,6 +731,7 @@ var options = {
             value: true
         }, {
             hint: 'Allow',
+            dismiss: true,
             code: '<mark>a</mark>.foo {\n  margin: 0\n}',
             value: false
         }]
@@ -756,6 +743,7 @@ var options = {
             value: true
         }, {
             hint: 'Allow',
+            dismiss: true,
             code: '    #foo {}\n/** ↑\n * This type of selector */',
             value: false
         }]
@@ -767,6 +755,7 @@ var options = {
             value: true
         }, {
             hint: 'Allow',
+            dismiss: true,
             code: '  a > b + c ~ d e { color: pink; }\n/** ↑   ↑   ↑  ↑\n * These are combinators */',
             value: false
         }]
@@ -778,6 +767,7 @@ var options = {
             value: true
         }, {
             hint: 'Allow',
+            dismiss: true,
             code: '[foo] {}',
             value: false
         }]
@@ -790,9 +780,6 @@ var options = {
             placeholder: 'Write pattern here',
             code: '    a {\n      color: orange;\n      &:hover { color: pink; }\n    } ↑\n/**   ↑\n * These nested selectors */',
             value: ""
-        }, {
-            hint: 'No pattern(""). You can also dismiss this step.',
-            value: ""
         }]
     }, {
         key: 'selector-max-specificity',
@@ -802,9 +789,6 @@ var options = {
             valueType: "string",
             placeholder: 'Specificity amount',
             code: '    .foo, #bar.baz span, #hoo { color: pink; }\n/** ↑     ↑              ↑\n * Each of these selectors */',
-            value: ""
-        }, {
-            hint: 'No specificity(""). You can also dismiss this step.',
             value: ""
         }]
     }, {
@@ -816,9 +800,6 @@ var options = {
             placeholder: 'Amount of levels',
             code: '   div .bar[data-val] > a.baz + .boom > #lorem {}\n/* ↑   ↑                ↑       ↑       ↑\n   |   |                |       |       |\n  Lv1 Lv2              Lv3     Lv4     Lv5\n these are compound selectors */',
             value: 0
-        }, {
-            hint: 'No levels(0). You can also dismiss this step.',
-            value: 0
         }]
     }, {
         key: 'selector-id-pattern',
@@ -829,9 +810,6 @@ var options = {
             placeholder: 'Write pattern here',
             code: 'Example "foo-[a-z]+" \n#<mark>foo-bar</mark> {}\n',
             value: ''
-        }, {
-            hint: 'No pattern(""). You can also dismiss this step.',
-            value: ''
         }]
     }, {
         key: 'selector-descendant-combinator-no-non-space',
@@ -840,6 +818,7 @@ var options = {
             code: '.foo .bar {}',
             value: true
         }, {
+            dismiss: true,
             code: '.foo <mark> </mark>.bar {}',
             value: false
         }]
@@ -864,9 +843,6 @@ var options = {
             placeholder: 'Write pattern here',
             code: 'Example "foo-[a-z]+" \n\n.<mark>foo-bar</mark> {}',
             value: ''
-        }, {
-            hint: 'No pattern(""). You can also dismiss this step.',
-            value: ''
         }]
     }, {
         key: 'selector-attribute-quotes',
@@ -887,9 +863,6 @@ var options = {
             input: true,
             valueType: "array",
             hint: 'Write operators names in space',
-            value: []
-        }, {
-            hint: 'Empty list(also you can dismiss this step)',
             value: []
         }]
     }, {
@@ -923,9 +896,6 @@ var options = {
             input: true,
             valueType: "array",
             hint: 'Write operators names in space',
-            value: []
-        }, {
-            hint: 'Empty list(also you can dismiss this step)',
             value: []
         }]
     }, {
@@ -1045,6 +1015,7 @@ var options = {
             value: true
         }, {
             hint: 'Allow',
+            dismiss: true,
             code: 'a { }',
             value: false
         }]
@@ -1177,9 +1148,6 @@ var options = {
             placeholder: 'Amount of declarations',
             code: 'a { color: pink; top: 0; }\n/** ↑            ↑\n * The number of these declarations */',
             value: '0'
-        }, {
-            hint: 'No single lines(0). You can also dismiss this step.',
-            value: 0
         }]
     }, {
         key: 'declaration-block-semicolon-space-before',
@@ -1262,6 +1230,7 @@ var options = {
             value: true
         }, {
             hint: 'Allow',
+            dismiss: true,
             code: 'a {\n margin-top: 1px;\n margin-right: 2px;\n margin-bottom: 3px;\n margin-left: 4px; \n}',
             value: false
         }]
@@ -1274,6 +1243,7 @@ var options = {
             value: true
         }, {
             hint: 'Allow',
+            dismiss: true,
             code: 'a {\n color: pink;\n color: orange; \n}',
             value: false
         }]
@@ -1285,9 +1255,6 @@ var options = {
             valueType: "array",
             hint: 'Write properties names in space',
             value: []
-        }, {
-            hint: 'Empty list(also you can dismiss this step)',
-            value: []
         }]
     }, {
         key: 'declaration-property-value-blacklist',
@@ -1296,9 +1263,6 @@ var options = {
             input: true,
             valueType: "array",
             hint: 'Write properties names in space',
-            value: []
-        }, {
-            hint: 'Empty list(also you can dismiss this step)',
             value: []
         }]
     }, {
@@ -1309,9 +1273,6 @@ var options = {
             valueType: "array",
             hint: 'Write units names in space',
             value: []
-        }, {
-            hint: 'Empty list(also you can dismiss this step)',
-            value: []
         }]
     }, {
         key: 'declaration-property-unit-blacklist',
@@ -1320,9 +1281,6 @@ var options = {
             input: true,
             valueType: "array",
             hint: 'Write units names in space',
-            value: []
-        }, {
-            hint: 'Empty list(also you can dismiss this step)',
             value: []
         }]
     }, {
@@ -1334,6 +1292,7 @@ var options = {
             value: true
         }, {
             hint: 'Allow',
+            dismiss: true,
             code: 'a {\n color: pink <mark>!important</mark>; \n}',
             value: false
         }]
@@ -1422,6 +1381,7 @@ var options = {
             value: true
         }, {
             hint: 'Allow',
+            dismiss: true,
             code: '@keyframes important1 {\n   from { margin: 10px }\n   to { margin: 20px <mark>!important</mark> }\n}',
             value: false
         }]
@@ -1446,6 +1406,7 @@ var options = {
             value: true
         }, {
             hint: 'Allow',
+            dismiss: true,
             code: 'a { \n   <mark>-webkit-</mark>transform: scale(1); \n}',
             value: false
         }]
@@ -1457,6 +1418,7 @@ var options = {
             value: true
         }, {
             hint: 'Allow',
+            dismiss: true,
             code: 'a {\n  <mark>my-property</mark>: block; \n}',
             value: false
         }]
@@ -1478,9 +1440,6 @@ var options = {
             valueType: "array",
             hint: 'Write properties names in space',
             value: []
-        }, {
-            hint: 'Empty list(also you can dismiss this step)',
-            value: []
         }]
     }, {
         key: 'shorthand-property-no-redundant-values',
@@ -1490,6 +1449,7 @@ var options = {
             value: true
         }, {
             code: 'a {\n  margin: 1px 1px 1px 1px; \n}',
+            dismiss: true,
             value: false
         }]
     }, {
@@ -1500,10 +1460,6 @@ var options = {
             valueType: "string",
             placeholder: 'Write pattern here',
             code: 'Example "foo-.+" \n\n:root { --<mark>foo-</mark>bar: 0; }',
-            value: ''
-        }, {
-            hint: 'No pattern(""). You can also dismiss this step.',
-            code: 'a {\n  transform: translate(\n    1,\n    1);\n}',
             value: ''
         }]
     }, {
@@ -1527,10 +1483,6 @@ var options = {
             placeholder: 'Amount of lines',
             code: 'a {\n  box-shadow:\n   inset 0 2px 0 #dcffa6 \n    <mark>/*these lines*/</mark>\n    0 2px 5px #000;\n}',
             value: '0'
-        }, {
-            hint: 'No empty lines(0). You can also dismiss this step.',
-            code: 'a {\n  transform: translate(\n    1,\n    1);\n}',
-            value: 0
         }]
     }, {
         key: 'value-list-comma-space-before',
@@ -1612,6 +1564,7 @@ var options = {
             value: true
         }, {
             code: 'a {\n  display: <mark>-webkit</mark>-flex; \n}',
+            dismiss: true,
             value: false
         }]
     }, {
@@ -1632,9 +1585,6 @@ var options = {
             valueType: 'array',
             hint: 'Write units names in space',
             value: []
-        }, {
-            hint: 'Empty list(also you can dismiss this step)',
-            value: []
         }]
     }, {
         key: 'unit-no-unknown',
@@ -1645,6 +1595,7 @@ var options = {
             value: true
         }, {
             hint: 'Allow',
+            dismiss: true,
             code: 'a {\n  top: 0<mark>pixels</mark>; \n}',
             value: false
         }]
@@ -1666,9 +1617,6 @@ var options = {
             valueType: 'array',
             hint: 'Write units names in space',
             value: []
-        }, {
-            hint: 'Empty list(also you can dismiss this step)',
-            value: []
         }]
     }, {
         key: 'time-min-milliseconds',
@@ -1678,9 +1626,6 @@ var options = {
             valueType: "int",
             placeholder: 'Amount of milliseconds',
             code: 'a { animation: slip-n-slide 150ms linear; }\n/**                          ↑\n*                          This time */',
-            value: 0
-        }, {
-            hint: 'Disallow milliseconds(0), you can also dismiss this step',
             value: 0
         }]
     }, {
@@ -1692,6 +1637,7 @@ var options = {
             value: true
         }, {
             hint: 'Allow',
+            dismiss: true,
             code: 'a {\n  top: 0<mark>px</mark>; \n}',
             value: false
         }]
@@ -1716,6 +1662,7 @@ var options = {
             value: true
         }, {
             hint: 'Allow',
+            dismiss: true,
             code: 'a {\n  content: "first\n<mark>      </mark>second"; \n}',
             value: false
         }]
@@ -1728,6 +1675,7 @@ var options = {
             value: true
         }, {
             hint: 'Allow',
+            dismiss: true,
             code: 'a {\n  top: 1.<mark>0</mark>px; \n}',
             value: false
         }]
@@ -1739,9 +1687,6 @@ var options = {
             valueType: "int",
             placeholder: 'Amount of numbers',
             code: 'a { top: 3.245634px; }\n/**            ↑\n* These decimal places */',
-            value: 0
-        }, {
-            hint: 'Disallow decimal(0)',
             value: 0
         }]
     }, {
@@ -1772,9 +1717,6 @@ var options = {
             valueType: 'array',
             hint: 'Write functions names in space',
             value: []
-        }, {
-            hint: 'Empty list(also you can dismiss this step)',
-            value: []
         }]
     }, {
         key: 'function-url-scheme-whitelist',
@@ -1783,9 +1725,6 @@ var options = {
             input: true,
             valueType: "array",
             hint: 'Write functions names in space',
-            value: []
-        }, {
-            hint: 'Empty list(also you can dismiss this step)',
             value: []
         }]
     }, {
@@ -1857,10 +1796,6 @@ var options = {
             placeholder: 'Amount of lines',
             code: 'a {\n  transform: translate(\n    1,\n  <mark>/*these lines*/</mark>\n    1);\n}',
             value: '0'
-        }, {
-            hint: 'No empty lines(0)',
-            code: 'a {\n  transform: translate(\n    1,\n    1);\n}',
-            value: 0
         }]
     }, {
         key: 'function-name-case',
@@ -1880,6 +1815,7 @@ var options = {
             value: true
         }, {
             code: 'a {\n  background: linear-gradient(\n top, #fff, #000); \n}',
+            dismiss: true,
             value: false
         }]
     }, {
@@ -1962,6 +1898,7 @@ var options = {
             value: true
         }, {
             code: 'a {\n  top: calc(1px+2px); \n}',
+            dismiss: true,
             value: false
         }]
     }, {
@@ -1971,9 +1908,6 @@ var options = {
             input: true,
             valueType: "array",
             hint: 'Write functions names in space',
-            value: []
-        }, {
-            hint: 'Empty list(also you can dismiss this step)',
             value: []
         }]
     }, {
@@ -1997,6 +1931,7 @@ var options = {
             value: true
         }, {
             hint: 'Allow',
+            dismiss: true,
             code: 'a {\n  font-family: <mark>"Times", Times</mark>, serif; \n}',
             value: false
         }]
@@ -2070,25 +2005,5 @@ var options = {
             code: 'a {\n  color: #fff;\n}',
             value: 'true'
         }]
-    }, {
-        key: 'rules.number-leading-zero',
-        hint: 'Leading zero',
-        variants: [{
-            code: 'a {\n  opacity: <mark>0</mark>.5;\n}',
-            value: 'always'
-        }, {
-            code: 'a {\n  opacity: .5;\n}',
-            value: 'never'
-        }]
-    }, {
-        key: 'rules.length-zero-no-unit',
-        hint: 'Units for zero lengths',
-        variants: [{
-            code: 'a {\n  top: 0<mark>px</mark>;\n}',
-            value: false
-        }, {
-            code: 'a {\n  top: 0;\n}',
-            value: true
-        }]
-    }, ]
+    }]
 };

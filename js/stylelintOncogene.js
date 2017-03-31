@@ -73,6 +73,11 @@ class StyleLintOncogene extends Oncogene {
         const variant = step.variants[inx];
         let value = variant.value;
 
+        if (variant.dismiss === true) {
+            this.nextStep();
+            return;
+        }
+
         if (variant.input === true) {
             let input = e.currentTarget.querySelector('input');
             let inputValue = this.getInputValue(input);
@@ -92,5 +97,24 @@ class StyleLintOncogene extends Oncogene {
 
     getResult() {
         document.querySelector('.oncogene').remove();
+    }
+
+    setVal(key, value) {
+        const path = key.split('.');
+        let cur = this.config;
+
+        while (path.length > 1) {
+            const subKey = path.shift();
+
+            if (!cur.hasOwnProperty(subKey)) cur[subKey] = {};
+
+            if (!this.constructor.isObject(cur[subKey])) {
+                throw new Error(`Part of path ${key} is not an object`);
+            }
+
+            cur = cur[subKey];
+        }
+
+        cur.rules[path.shift()] = value;
     }
 }
