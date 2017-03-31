@@ -52,20 +52,23 @@ body {
 }
 
 .oncogene {
-    width: 49%;
-    flex: 0 0 auto;
+    width: 50%;
+    flex: 1 1 auto;
+    margin-right: var(--offset);
     padding: var(--offset);
     border-radius: var(--radius);
     background: var(--back-dark-color);
 }
 
 .result {
-    width: 49%;
-    flex: 0 0 auto;
+    width: 50%;
+    flex: 1 1 auto;
     padding: var(--offset);
     overflow: auto;
     background: var(--back-dark-color);
+    border-radius: var(--radius);
 }
+
 
 .oncogene__hint {
     font-size: 1.4rem;
@@ -112,6 +115,7 @@ body {
     padding: 10px;
     font-family: monospace;
     white-space: pre;
+    border-radius: var(--radius);
 }
 
 .config {
