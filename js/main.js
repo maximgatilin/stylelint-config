@@ -98,6 +98,486 @@ class StyleLintOncogene extends Oncogene {
 new StyleLintOncogene({
     selector: '.oncogene',
     steps: [{
+        key: 'no-unknown-animations',
+        hint: 'Disallow unknown animations',
+        variants: [{
+            hint: 'Disallow',
+            code: 'a { animation-name: fancy-slide; }\n@keyframes fancy-slide {}',
+            value: true
+        }, {
+            hint: 'Allow',
+            code: 'a { animation-name: <mark>fancccy-slide</mark>; }\n@keyframes <mark>fancy-slide</mark> {}',
+            value: false
+        }]
+    }, {
+        key: 'no-missing-end-of-source-newline',
+        hint: 'Disallow missing end-of-source newlines',
+        variants: [{
+            hint: 'Disallow',
+            code: 'a { color: pink; }\n\\n',
+            value: true
+        }, {
+            hint: 'Allow',
+            code: 'a { color: pink; }',
+            value: false
+        }]
+    }, {
+        key: 'no-invalid-double-slash-comments',
+        hint: 'Disallow double-slash comments (//...) which are not supported by CSS',
+        variants: [{
+            hint: 'Disallow',
+            code: 'a { /* color: pink; */ }',
+            value: true
+        }, {
+            hint: 'Allow',
+            code: 'a { // color: pink; }',
+            value: false
+        }]
+    }, {
+        key: 'no-extra-semicolons',
+        hint: 'Disallow extra semicolons',
+        variants: [{
+            code: '@import "x.css";',
+            value: true
+        }, {
+            hint: 'Allow',
+            code: '@import "x.css";;',
+            value: false
+        }]
+    }, {
+        key: 'no-eol-whitespace',
+        hint: 'Disallow end-of-line whitespace',
+        variants: [{
+            hint: 'Disallow',
+            value: true
+        }, {
+            hint: 'Allow',
+            code: 'a { color: pink; }···\n/**               ↑\n *  This whitespace */',
+            value: false
+        }]
+    }, {
+        key: 'no-empty-source',
+        hint: 'Disallow empty sources',
+        variants: [{
+            hint: 'Disallow',
+            value: true
+        }, {
+            hint: 'Allow',
+            code: '  ···\\n\\t\n/**     ↑\n *  This empty source */',
+            value: false
+        }]
+    }, {
+        key: 'no-descending-specificity',
+        hint: 'Disallow duplicate selectors within a stylesheet',
+        variants: [{
+            hint: 'Disallow',
+            value: true
+        }, {
+            hint: 'Allow',
+            code: '<mark>.foo</mark> {}\n.bar {}\n<mark>.foo</mark> {}',
+            value: false
+        }]
+    }, {
+        key: 'no-descending-specificity',
+        hint: 'Disallow selectors of lower specificity from coming after overriding selectors of higher specificity',
+        variants: [{
+            hint: 'Disallow',
+            code: 'a {}\nb a {}',
+            value: true
+        }, {
+            hint: 'Allow',
+            code: 'b a {}\na {}',
+            value: false
+        }]
+    }, {
+        key: 'max-nesting-depth',
+        hint: 'Limit the allowed nesting depth(int)',
+        variants: [{
+            input: true,
+            valueType: "int",
+            code: 'a { & > b { top: 0; }\n/** ↑\n * This nesting */',
+            value: 0
+        }, {
+            hint: 'No depth(0). You can also dismiss this step.',
+            value: 0
+        }]
+    }, {
+        key: 'max-line-length',
+        hint: 'Limit the length of a line(int)',
+        variants: [{
+            input: true,
+            valueType: "int",
+            code: 'a { color: red }\n/**            ↑\n *       The end */',
+            value: 0
+        }, {
+            hint: 'No length(0). You can also dismiss this step.',
+            value: 0
+        }]
+    }, {
+        key: 'max-empty-lines',
+        hint: 'Limit the number of adjacent empty lines(int)',
+        variants: [{
+            input: true,
+            valueType: "int",
+            placeholder: 'Amount of lines',
+            code: 'a {}\n     /* ← */\n     /* ← */\na {} /* ↑ */\n/**     ↑\n * These lines */',
+            value: 0
+        }, {
+            hint: 'No empty lines(0). You can also dismiss this step.',
+            value: 0
+        }]
+    }, {
+        key: 'indentation',
+        hint: 'Specify indentation',
+        variants: [{
+            input: true,
+            hint: 'Spaces(specify number of spaces)',
+            valueType: "int",
+            placeholder: '',
+            value: 0
+        }, {
+            hint: 'Tabs',
+            value: 'tab'
+        }]
+    }, {
+        key: 'comment-word-blacklist',
+        hint: 'Specify a blacklist of disallowed words within comments(e.g. TODO)',
+        variants: [{
+            input: true,
+            valueType: "array",
+            hint: 'Write words in space',
+            value: []
+        }, {
+            hint: 'Empty list(also you can dismiss this step)',
+            value: []
+        }]
+    }, {
+        key: 'comment-whitespace-inside',
+        hint: 'Require or disallow whitespace on the inside of comment markers',
+        variants: [{
+            code: '/*<mark> </mark>comment<mark> </mark>*/',
+            value: 'always'
+        }, {
+            code: '/*comment*/',
+            value: 'never'
+        }]
+    }, {
+        key: 'comment-no-empty',
+        hint: 'Disallow empty comments',
+        variants: [{
+            hint: 'Disallow',
+            code: '/* comment */',
+            value: true
+        }, {
+            hint: 'Allow',
+            code: '/* */',
+            value: false
+        }]
+    }, {
+        key: 'comment-empty-line-before',
+        hint: 'Require or disallow an empty line before comments',
+        variants: [{
+            code: 'a {}\n\n/* comment */',
+            value: 'always'
+        }, {
+            code: 'a {}\n/* comment */',
+            value: 'never'
+        }]
+    }, {
+        key: 'at-rule-whitelist',
+        hint: 'Specify a whitelist of disallowed at-rules(e.g. extend)',
+        variants: [{
+            input: true,
+            valueType: "array",
+            hint: 'Write at-rules names in space',
+            value: []
+        }, {
+            hint: 'Empty list(also you can dismiss this step)',
+            value: []
+        }]
+    }, {
+        key: 'at-rule-semicolon-newline-after',
+        hint: 'Require a newline after the semicolon of at-rules',
+        variants: [{
+            hint: 'Always',
+            value: 'always',
+            code: '@import url("x.css");\n@import url("y.css");'
+        }, {
+            hint: 'Not specified(You can also dismiss this step)',
+            code: '@import url("x.css"); @import url("y.css");',
+            value: false
+        }]
+    }, {
+        key: 'at-rule-no-vendor-prefix',
+        hint: 'Disallow vendor prefixes for at-rules',
+        variants: [{
+            hint: 'Disallow',
+            value: true
+        }, {
+            hint: 'Allow',
+            code: '@<mark>-webkit-</mark>keyframes { 0% { top: 0; } }',
+            value: false
+        }]
+    }, {
+        key: 'at-rule-no-unknown',
+        hint: 'Disallow unknown at-rules',
+        variants: [{
+            hint: 'Disallow',
+            value: true
+        }, {
+            hint: 'Allow',
+            code: '<mark>@unknown</mark> {}',
+            value: false
+        }]
+    }, {
+        key: 'at-rule-name-space-after',
+        hint: 'Require a single space after at-rule names',
+        variants: [{
+            hint: 'Always',
+            code: '@charset<mark> </mark>"UTF-8";',
+            value: 'always'
+        }, {
+            hint: 'Always single-line',
+            code: '@charset<mark> </mark>"UTF-8";\n\n@media(min-width: 700px) and\n  (orientation: portrait) {}',
+            value: 'always-single-line'
+        }]
+    }, {
+        key: 'at-rule-name-newline-after',
+        hint: 'Require a newline after at-rule names',
+        variants: [{
+            hint: 'Always',
+            code: '@charset\n  "UTF-8";',
+            value: 'always'
+        }, {
+            hint: 'Always multi-line',
+            code: '@charset "UTF-8";\n\n@media\n  (min-width: 700px) and\n  (orientation: landscape) {}',
+            value: 'always-multi-line'
+        }]
+    }, {
+        key: 'at-rule-name-case',
+        hint: 'Specify lowercase or uppercase for at-rules names',
+        variants: [{
+            code: '@charset "UTF-8";',
+            value: 'lower'
+        }, {
+            code: '@CHARSET "UTF-8"',
+            value: 'upper'
+        }]
+    }, {
+        key: 'at-rule-empty-line-before',
+        hint: 'Require or disallow an empty line before at-rules',
+        variants: [{
+            code: 'a {}\n\n@media {}',
+            value: 'always'
+        }, {
+            code: 'a {}\n@media {}',
+            value: 'never'
+        }]
+    }, {
+        key: 'at-rule-blacklist',
+        hint: 'Specify a blacklist of disallowed at-rules(e.g. extend)',
+        variants: [{
+            input: true,
+            valueType: "array",
+            hint: 'Write at-rules names in space',
+            value: []
+        }, {
+            hint: 'Empty list(also you can dismiss this step)',
+            value: []
+        }]
+    }, {
+        key: 'media-query-list-comma-space-before',
+        hint: 'Require a single space or disallow whitespace before the commas of media query lists',
+        variants: [{
+            hint: 'Always',
+            code: '@media screen and (color)<mark> </mark>,projection and (color) {}',
+            value: 'always'
+        }, {
+            hint: 'Never',
+            code: '@media screen and (color),projection and (color) {}',
+            value: 'never'
+        }, {
+            hint: 'Always in single-line',
+            code: '@media screen and (color)<mark> </mark>,projection and (color) {}\n\n@media screen and (color)\n, projection and (color) {}',
+            value: 'always-single-line'
+        }, {
+            hint: 'Never in single-line',
+            code: '@media screen and (color),projection and (color) {}\n\n@media screen and (color)\n,projection and (color) {}',
+            value: 'never-single-line'
+        }]
+    }, {
+        key: 'media-query-list-comma-space-after',
+        hint: 'Require a single space or disallow whitespace after the commas of media query lists',
+        variants: [{
+            hint: 'Always',
+            code: '@media screen and (color),<mark> </mark>projection and (color) {}',
+            value: 'always'
+        }, {
+            hint: 'Never',
+            code: '@media screen and (color),projection and (color) {}',
+            value: 'never'
+        }, {
+            hint: 'Always in single-line',
+            code: '@media screen and (color),<mark> </mark>projection and (color) {}\n\n@media screen and (color)\n,projection and (color) {}',
+            value: 'always-single-line'
+        }, {
+            hint: 'Never in single-line',
+            code: '@media screen and (color),projection and (color) {}\n\n@media screen and (color)\n, projection and (color) {}',
+            value: 'never-single-line'
+        }]
+    }, {
+        key: 'media-query-list-comma-newline-before',
+        hint: 'Require a newline or disallow whitespace before the commas of media query lists',
+        variants: [{
+            hint: 'Always',
+            code: '@media screen and (color)\n,projection and (color) {}',
+            value: 'always'
+        }, {
+            hint: 'Always in multi-line',
+            code: '@media screen and (color), projection and (color) {}\n\n@media screen and (color)\n,projection and (color) {}',
+            value: 'always-multi-line'
+        }, {
+            hint: 'Never in multi-line',
+            code: '@media screen and (color), projection and (color) {}\n\n@media screen and (color),\nprojection and (color) {}',
+            value: 'never-multi-line'
+        }]
+    }, {
+        key: 'media-query-list-comma-newline-after',
+        hint: 'Require a newline or disallow whitespace after the commas of media query lists',
+        variants: [{
+            hint: 'Always',
+            code: '@media screen and (color),\nprojection and (color) {}',
+            value: 'always'
+        }, {
+            hint: 'Always in multi-line',
+            code: '@media screen and (color), projection and (color) {}\n\n@media screen and (color),\nprojection and (color) {}',
+            value: 'always-multi-line'
+        }, {
+            hint: 'Never in multi-line',
+            code: '@media screen and (color), projection and (color) {}\n\n@media screen and (color)\n,projection and (color) {}',
+            value: 'never-multi-line'
+        }]
+    }, {
+        key: 'custom-media-pattern',
+        hint: 'Specify a pattern for custom media query names',
+        variants: [{
+            input: true,
+            valueType: "string",
+            placeholder: 'Write pattern here',
+            code: '@custom-media --foo (max-width: 30em);\n/**             ↑\n * The pattern of this */',
+            value: ""
+        }, {
+            hint: 'No pattern(""). You can also dismiss this step.',
+            value: ""
+        }]
+    }, {
+        key: 'media-feature-range-operator-space-before',
+        hint: 'Require a single space or disallow whitespace before the range operator in media features',
+        variants: [{
+            code: '@media (max-width<mark> </mark>>=600px) {}',
+            value: 'always'
+        }, {
+            code: '@media (max-width>=600px) {}',
+            value: 'never'
+        }]
+    }, {
+        key: 'media-feature-range-operator-space-after',
+        hint: 'Require a single space or disallow whitespace after the range operator in media features',
+        variants: [{
+            code: '@media (max-width>=<mark> </mark>600px) {}',
+            value: 'always'
+        }, {
+            code: '@media (max-width>=600px) {}',
+            value: 'never'
+        }]
+    }, {
+        key: 'media-feature-parentheses-space-inside',
+        hint: 'Require a single space or disallow whitespace on the inside of the parentheses within media features',
+        variants: [{
+            code: '@media (<mark> </mark>max-width: 300px<mark> </mark>) {}',
+            value: 'always'
+        }, {
+            code: '@media (max-width: 300px) {}',
+            value: 'never'
+        }]
+    }, {
+        key: 'media-feature-name-whitelist',
+        hint: 'Specify a whitelist of allowed media feature names(e.g. min-width)',
+        variants: [{
+            input: true,
+            valueType: "array",
+            hint: 'Write features names in space',
+            value: []
+        }, {
+            hint: 'Empty list(also you can dismiss this step)',
+            value: []
+        }]
+    }, {
+        key: 'media-feature-name-no-vendor-prefix',
+        hint: 'Disallow vendor prefixes for media feature names',
+        variants: [{
+            hint: 'Disallow',
+            code: '@media (min-device-pixel-ratio: 1) {}',
+            value: true
+        }, {
+            hint: 'Allow',
+            code: '@media (<mark>-webkit-</mark>min-device-pixel-ratio: 1) {}',
+            value: false
+        }]
+    }, {
+        key: 'media-feature-name-no-unknown',
+        hint: 'Disallow unknown media feature names',
+        variants: [{
+            hint: 'Disallow',
+            value: true
+        }, {
+            hint: 'Allow',
+            code: '@media screen and (<mark>unknown</mark>) {}',
+            value: false
+        }]
+    }, {
+        key: 'media-feature-name-case',
+        hint: 'Specify lowercase or uppercase for media feature names',
+        variants: [{
+            code: '@media (min-width: 700px) {}',
+            value: 'lower'
+        }, {
+            code: '@media (MIN-WIDTH: 700px) {}',
+            value: 'upper'
+        }]
+    }, {
+        key: 'media-feature-name-blacklist',
+        hint: 'Specify a blacklist of disallowed media feature names(e.g. min-width)',
+        variants: [{
+            input: true,
+            valueType: "array",
+            hint: 'Write features names in space',
+            value: []
+        }, {
+            hint: 'Empty list(also you can dismiss this step)',
+            value: []
+        }]
+    }, {
+        key: 'media-feature-colon-space-before',
+        hint: 'Require a single space or disallow whitespace before the colon in media features',
+        variants: [{
+            code: '@media (max-width<mark> </mark>:600px) {}',
+            value: 'always'
+        }, {
+            code: '@media (max-width:600px) {}',
+            value: 'never'
+        }]
+    }, {
+        key: 'media-feature-colon-space-after',
+        hint: 'Require a single space or disallow whitespace after the colon in media features',
+        variants: [{
+            code: '@media (max-width:<mark> </mark>600px) {}',
+            value: 'always'
+        }, {
+            code: '@media (max-width:600px) {}',
+            value: 'never'
+        }]
+    }, {
         key: 'rule-empty-line-before',
         hint: 'Require or disallow an empty line before rules',
         variants: [{
