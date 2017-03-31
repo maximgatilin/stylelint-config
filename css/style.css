@@ -52,7 +52,7 @@ body {
 }
 
 .oncogene {
-    width: 45%;
+    width: 49%;
     flex: 0 0 auto;
     padding: var(--offset);
     border-radius: var(--radius);
@@ -60,7 +60,7 @@ body {
 }
 
 .result {
-    width: 45%;
+    width: 49%;
     flex: 0 0 auto;
     padding: var(--offset);
     overflow: auto;
