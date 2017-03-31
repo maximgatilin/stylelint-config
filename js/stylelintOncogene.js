@@ -39,7 +39,6 @@ class StyleLintOncogene extends Oncogene {
 
         item.dataset.inx = inx;
         item.appendChild(hint);
-        item.appendChild(codeBlock);
 
         if (variant.input === true) {
             let input = this.createInputNode({ type: 'text', placeholder: variant.placeholder, valueType: variant.valueType });
@@ -49,8 +48,9 @@ class StyleLintOncogene extends Oncogene {
         }
 
         item.addEventListener('click', this.variantClickHandler.bind(this));
-
+        
         if (variant.code !== undefined) {
+            item.appendChild(codeBlock);
             this.highlightCode(codeBlock);
         }
 
