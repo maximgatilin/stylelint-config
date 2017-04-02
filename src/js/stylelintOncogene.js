@@ -58,6 +58,14 @@ export class StyleLintOncogene extends Oncogene {
         return item;
     }
 
+    getProgressNode() {
+        const progress = this.createNode(this.classes.common.progress);
+
+        progress.innerHTML = `Option ${this.stepInx + 1} of ${this.steps.length}`;
+
+        return progress;
+    }
+
     getInputValue(input) {
         const initialValue = input.value;
         const valueType = input.dataset.valueType;
