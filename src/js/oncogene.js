@@ -1,4 +1,4 @@
-class Oncogene {
+export class Oncogene {
     constructor(options) {
         if (!options.skipValidation) {
             this.constructor.checkOptions(options)

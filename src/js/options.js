@@ -997,3 +997,4 @@ var options = {
         }]
     }]
 };
+export {options};

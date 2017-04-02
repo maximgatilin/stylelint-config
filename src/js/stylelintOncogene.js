@@ -1,4 +1,5 @@
-class StyleLintOncogene extends Oncogene {
+import {Oncogene} from './oncogene.js';
+export class StyleLintOncogene extends Oncogene {
     nextStep() {
         const result = document.querySelector('.result > .config');
 
