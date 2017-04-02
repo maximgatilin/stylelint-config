@@ -23,6 +23,12 @@ const config = {
         }, {
             test: /\.exec\.js$/,
             use: ['script-loader']
+        }, {
+            test: /\.css$/,
+            use: [
+                'style-loader',
+                'css-loader'
+            ]
         }]
     }
 }
