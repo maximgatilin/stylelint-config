@@ -7,16 +7,6 @@ export class StyleLintOncogene extends Oncogene {
         super.nextStep();
     }
 
-    createInputNode(config) {
-        const node = document.createElement('input');
-
-        node.setAttribute("type", config.type);
-        node.setAttribute("placeholder", config.placeholder || "");
-        node.setAttribute("data-value-type", config.valueType || "");
-
-        return node;
-    }
-
     createCodeNode(config) {
         const parent = document.createElement('pre');
         const codeContainer = document.createElement('code');
@@ -41,13 +31,6 @@ export class StyleLintOncogene extends Oncogene {
         item.dataset.inx = inx;
         item.appendChild(hint);
 
-        if (variant.input === true) {
-            let input = this.createInputNode({ type: 'text', placeholder: variant.placeholder, valueType: variant.valueType });
-            input.addEventListener('click', this.variantInputClickHandler.bind(this));
-            input.addEventListener('keyup', this.variantInputKeyUpHandler.bind(this));
-            item.appendChild(input);
-        }
-
         item.addEventListener('click', this.variantClickHandler.bind(this));
         
         if (variant.code !== undefined) {
@@ -66,48 +49,15 @@ export class StyleLintOncogene extends Oncogene {
         return progress;
     }
 
-    getInputValue(input) {
-        const initialValue = input.value;
-        const valueType = input.dataset.valueType;
-        let formattedValue = initialValue;
-
-        if (valueType === 'int') {
-            formattedValue = Number(initialValue) || 0;
-        }
-
-        if (valueType === 'array') {
-            formattedValue = initialValue.split(" ");
-            formattedValue = formattedValue.filter(item => item !== "");
-        }
-
-        return formattedValue;
-    }
-
-    variantInputClickHandler(e) {
-        e.stopPropagation();
-    }
-
-    variantInputKeyUpHandler(e) {
-        if (e.code === "Enter") {
-            e.target.parentElement.click();
-        }
-    }
-
     variantClickHandler(e) {
         const step = this.getStep();
         const inx = e.currentTarget.dataset.inx;
         const variant = step.variants[inx];
-        let value = variant.value;
+        const value = variant.value;
 
         if (variant.dismiss === true) {
             this.nextStep();
             return;
-        }
-
-        if (variant.input === true) {
-            let input = e.currentTarget.querySelector('input');
-            let inputValue = this.getInputValue(input);
-            value = inputValue;
         }
 
         if (step.key) {
@@ -122,7 +72,7 @@ export class StyleLintOncogene extends Oncogene {
     }
 
     getResult() {
-        document.querySelector('.oncogene').remove();
+        document.querySelector('.generator').remove();
     }
 
     setVal(key, value) {

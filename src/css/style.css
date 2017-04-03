@@ -1,8 +1,10 @@
 :root {
     /*main colors*/
     --font-color: #000;
-    --back-color: #ecf0f1;
-    --back-dark-color: #ddd;
+    --back-color: #fff;
+    --back-dark-color: #ecf0f1;
+    --dark-border: #ccc;
+    --dark-border-active: #999;
     /*buttons*/
     --default-color: #3498db;
     --default-color-active: #2980b9;
@@ -11,7 +13,7 @@
     /*sizes*/
     --page-max-width: 1024px;
     --offset: 20px;
-    --radius: 5px;
+    --radius: 3px;
     --base-font-size: 14px;
 }
 
@@ -51,28 +53,34 @@ body {
     padding-top: var(--offset);
 }
 
-.oncogene {
+.generator {
     width: 50%;
     flex: 1 1 auto;
     margin-right: var(--offset);
-    padding: var(--offset);
     border-radius: var(--radius);
-    background: var(--back-dark-color);
+}
+
+.generator__hint {
+    display: block;
+    margin: 0 0 20px;
+    font-size: 20px;
+}
+
+.result__wrapper {
+    width: 50%;
+    flex: 1 1 auto;
 }
 
 .result {
-    width: 50%;
-    flex: 1 1 auto;
     padding: var(--offset);
     overflow: auto;
     background: var(--back-dark-color);
     border-radius: var(--radius);
 }
 
-
-.oncogene__hint {
+.block-title {
+    font-weight: 400;
     font-size: 1.4rem;
-    text-align: center;
     margin-bottom: 16px;
 }
 
@@ -81,15 +89,17 @@ body {
     text-align: center;
 }
 
-.oncogene-variants {
-    
-}
-
 .oncogene-variants__item {
-    background-color: #eee;
+    background-color: var(--back-dark-color);
     padding: 16px;
     border-radius: 4px;
     cursor: pointer;
+    border: 1px solid var(--dark-border);
+    transition: .2s ease;
+}
+
+.oncogene-variants__item:hover {
+    border-color: var(--dark-border-active);
 }
 
 .oncogene-variants__item + .oncogene-variants__item {
@@ -106,8 +116,7 @@ body {
 }
 
 .oncogene-variants__hint {
-    font-size: 14px;
-    font-weight: bold;
+    font-size: 16px;
 }
 
 .oncogene-variants__code {
