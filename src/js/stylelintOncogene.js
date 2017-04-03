@@ -1,5 +1,10 @@
 import {Oncogene} from './oncogene.js';
 export class StyleLintOncogene extends Oncogene {
+    constructor(options) {
+        super(options);
+        this.viewConfig();
+    }
+
     makeStep(stepSize) {
         super.makeStep(stepSize);
         this.checkBackBtn(this.stepInx);
@@ -8,13 +13,19 @@ export class StyleLintOncogene extends Oncogene {
     checkBackBtn(stepSize) {
         const styleDisplay = (stepSize === 0 ? 'none' : '');
         const backBtn = document.querySelector('.js-back-btn');
-        backBtn.style.display = styleDisplay;
+        if (backBtn !== null) {
+            backBtn.style.display = styleDisplay;
+        }
     }
 
-    nextStep() {
+    viewConfig() {
         const result = document.querySelector('.result > .config');
 
         result.textContent = JSON.stringify(this.config, null, 4);
+    }
+
+    nextStep() {
+        this.viewConfig();
         super.nextStep();
     }
 
