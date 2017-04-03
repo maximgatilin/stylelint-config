@@ -5,6 +5,8 @@
     --back-dark-color: #ecf0f1;
     --dark-border: #ccc;
     --dark-border-active: #999;
+    --link-color: #dc143c;
+    --link-color-active: #32cd32;
     /*buttons*/
     --default-color: #3498db;
     --default-color-active: #2980b9;
@@ -34,11 +36,24 @@ body {
     background: var(--back-color);
 }
 
+.content {
+    line-height: 1.4;
+}
+
+.content a {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+.content a:hover {
+    color: var(--link-color-active);
+}
+
 .page {
     width: 100%;
     max-width: var(--page-max-width);
     margin: 0 auto;
-    padding: 60px var(--offset);
+    padding: 20px var(--offset);
 }
 
 .page__heading {
