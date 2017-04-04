@@ -3,6 +3,7 @@
     --font-color: #000;
     --back-color: #fff;
     --back-dark-color: #ecf0f1;
+    --back-dark-color-active: #dadcdc;
     --dark-border: #ccc;
     --dark-border-active: #999;
     --link-color: #dc143c;
@@ -12,6 +13,7 @@
     --default-color-active: #2980b9;
     --warning-color: #e74c3c;
     --warning-color-active: #c0392b;
+    --notify-background: #34495e;
     /*sizes*/
     --page-max-width: 1024px;
     --offset: 20px;
@@ -96,10 +98,12 @@ body {
 }
 
 .result {
+    position: relative;
     padding: var(--offset);
     overflow: auto;
     border: 1px solid var(--dark-border);
     border-radius: var(--radius);
+    box-shadow: inset 0 0 24px 0px rgba(0,0,0,0.06);
 }
 
 .block-title {
@@ -120,10 +124,16 @@ body {
     cursor: pointer;
     border: 1px solid var(--dark-border);
     transition: .2s ease;
+    box-shadow: 0 2px 7px 1px rgba(0,0,0,0.1);
 }
 
 .oncogene-variants__item:hover {
     border-color: var(--dark-border-active);
+    box-shadow: 0 2px 7px rgba(0,0,0,0.05);
+}
+
+.oncogene-variants__item:active {
+    background: var(--back-dark-color-active);
 }
 
 .oncogene-variants__item + .oncogene-variants__item {
@@ -186,6 +196,29 @@ body {
     background: var(--default-color-active);
 }
 
+.button--copy {
+    position: absolute;
+    top: var(--offset);
+    right: var(--offset);
+    padding: 5px 10px;
+    color: #fff;
+    background: #000;
+    transition: .3s ease;
+    /*hide*/
+    opacity: 0;
+    pointer-events: none;
+}
+
+.button--copy:focus {
+    outline: none;
+}
+
+.result:hover .button--copy {
+    /*show*/
+    opacity: 1;
+    pointer-events: auto;
+}
+
 .footer {
     text-align: center;
     margin-top: auto;
@@ -196,4 +229,31 @@ body {
     width: 50px;
     height: 50px;
     display: inline-block;
+}
+
+.popup__wrapper {
+    position: fixed;
+    will-change: tranform;
+    transform: translateZ(0);
+    top: 0;
+    left: 0;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    transition: opacity .2s ease;
+}
+
+.popup__wrapper.hidden {
+    opacity: 0;
+}
+
+.popup__window {
+    margin: auto;
+    padding: 14px 22px;
+    font-size: 21px;
+    border-radius: 7px;
+    background: var(--notify-background);
+    color: white;
+    box-shadow: 0 4px 27px var(--notify-background);
 }
