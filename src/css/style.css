@@ -7,7 +7,7 @@
     --dark-border-active: #999;
     --link-color: #dc143c;
     --link-color-active: #32cd32;
-    /*buttons*/
+    /*ui colors*/
     --default-color: #3498db;
     --default-color-active: #2980b9;
     --warning-color: #e74c3c;
@@ -89,7 +89,7 @@ body {
 .result {
     padding: var(--offset);
     overflow: auto;
-    background: var(--back-dark-color);
+    border: 1px solid var(--dark-border);
     border-radius: var(--radius);
 }
 
