@@ -49,6 +49,15 @@ body {
     color: var(--link-color-active);
 }
 
+.content p {
+    margin-bottom: 8px;
+}
+
+.content mark {
+    background: var(--back-dark-color);
+    font-family: monospace;
+}
+
 .page {
     width: 100%;
     max-width: var(--page-max-width);
