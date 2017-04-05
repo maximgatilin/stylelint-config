@@ -1,6 +1,6 @@
-var options = {
+const options = {
     selector: '.oncogene',
-    config: { "extends": "stylelint-config-standard", rules: {} },
+    config: { extends: 'stylelint-config-standard', rules: {} },
     skipValidation: true,
     steps: [{
         key: 'indentation',
@@ -57,7 +57,7 @@ var options = {
             value: 'upper'
         }, {
             hint: 'Skip (inherit from standart config)',
-            dismiss: true,
+            dismiss: true
         }]
     }, {
         key: 'color-hex-length',
@@ -71,7 +71,7 @@ var options = {
             value: 'short'
         }, {
             hint: 'Skip (inherit from standart config)',
-            dismiss: true,
+            dismiss: true
         }]
     }, {
         key: 'color-named',
@@ -86,7 +86,7 @@ var options = {
         }, {
             hint: 'Skip (use code or name)',
             code: 'a {\n  color: <mark>#fff</mark>;\n  background: <mark>gray</mark>\n}',
-            dismiss: true,
+            dismiss: true
         }]
     }, {
         key: 'color-no-hex',
@@ -108,7 +108,7 @@ var options = {
         }, {
             hint: 'Allow qualifying a selector by type)',
             dismiss: true,
-            code: '<mark>a</mark>.foo {\n  margin: 0\n}',
+            code: '<mark>a</mark>.foo {\n  margin: 0\n}'
         }]
     }, {
         key: 'selector-no-id',
@@ -119,7 +119,7 @@ var options = {
         }, {
             hint: 'Allow id selector',
             dismiss: true,
-            code: '<mark>#</mark>foo {}',
+            code: '<mark>#</mark>foo {}'
         }]
     }, {
         key: 'selector-no-combinator',
@@ -148,11 +148,11 @@ var options = {
         variants: [{
             hint: 'Require a single space after the combinators of selectors',
             code: 'a +<mark> </mark>b { color: pink; }',
-            value: "always"
+            value: 'always'
         }, {
             hint: 'Disallow whitespace after the combinators of selectors',
             code: 'a +b { color: pink; }',
-            value: "never"
+            value: 'never'
         }, {
             hint: 'Skip (inherit from standart config)',
             dismiss: true
@@ -162,11 +162,11 @@ var options = {
         variants: [{
             hint: 'Require quotes for attribute values',
             code: '[target=<mark>"</mark>_blank<mark>"</mark>] {}',
-            value: "always"
+            value: 'always'
         }, {
             hint: 'Disallow quotes for attribute values',
             code: '[target=_blank] {}',
-            value: "never"
+            value: 'never'
         }, {
             hint: 'Skip (allow any type of syntax)',
             code: '[target=_blank] {}\n\n[title=<mark>"</mark>flower<mark>"</mark>] {}',
@@ -177,11 +177,11 @@ var options = {
         variants: [{
             hint: 'Require a single space before operators within attribute selectors',
             code: '[target<mark> </mark>= "_blank"] {}',
-            value: "always"
+            value: 'always'
         }, {
             hint: 'Disallow whitespace before operators within attribute selectors',
             code: '[target= "_blank"] {}',
-            value: "never"
+            value: 'never'
         }, {
             hint: 'Skip (inherit from standart config)',
             dismiss: true
@@ -191,11 +191,11 @@ var options = {
         variants: [{
             hint: 'Require a single space after operators within attribute selectors',
             code: '[target =<mark> </mark>"_blank"] {}',
-            value: "always"
+            value: 'always'
         }, {
             hint: 'Disallow whitespace after operators within attribute selectors',
             code: '[target ="_blank"] {}',
-            value: "never"
+            value: 'never'
         }, {
             hint: 'Skip (inherit from standart config)',
             dismiss: true
@@ -205,11 +205,11 @@ var options = {
         variants: [{
             hint: 'Require a single space on the inside of the brackets within attribute selectors',
             code: '[<mark> </mark>target=_blank<mark> </mark>] {}',
-            value: "always"
+            value: 'always'
         }, {
             hint: 'Disallow whitespace on the inside of the brackets within attribute selectors',
             code: '[target=_blank] {}',
-            value: "never"
+            value: 'never'
         }, {
             hint: 'Skip (inherit from standart config)',
             dismiss: true
@@ -219,11 +219,11 @@ var options = {
         variants: [{
             hint: 'Require trailing semicolon within declaration blocks',
             code: 'a { color: pink<mark>;</mark> }\na { background: orange; color: pink<mark>;</mark> }',
-            value: "always"
+            value: 'always'
         }, {
             hint: 'Disallow trailing semicolon within declaration blocks',
             code: 'a { color: pink }\na { background: orange; color: pink }',
-            value: "never"
+            value: 'never'
         }, {
             hint: 'Skip (inherit from standart config)',
             dismiss: true
@@ -299,11 +299,11 @@ var options = {
         variants: [{
             hint: 'Require  leading zero for fractional numbers',
             code: 'a {\n line-height: <mark>0</mark>.5; \n}',
-            value: "always"
+            value: 'always'
         }, {
             hint: 'Disallow leading zero for fractional numbers',
             code: 'a {\n line-height: .5; \n}',
-            value: "never"
+            value: 'never'
         }, {
             hint: 'Skip (inherit from standart config)',
             dismiss: true
@@ -336,22 +336,22 @@ var options = {
         }, {
             hint: 'Skip (allow any type of urls)',
             code: 'a {\n  background-image:\n    url("<mark>data:</mark>image/gif;base64,R0lGODlh="); \n}\n\na {\n  background-image: url(image.gif); \n}',
-            dismiss: true,
+            dismiss: true
         }]
     }, {
         key: 'font-weight-notation',
         variants: [{
             hint: 'Numeric font weight notation',
             code: 'a {\n  font-weight: <mark>700</mark>; \n}',
-            value: "numeric"
+            value: 'numeric'
         }, {
             hint: 'Named font weight notation',
             code: 'a {\n  font-weight: <mark>bold</mark>; \n}',
-            value: "named-where-possible"
+            value: 'named-where-possible'
         }, {
             hint: 'Skip(allow any type of notation)',
             code: 'a {\n  font-weight: <mark>700</mark>; \n}\n\nspan {\n  font-weight: <mark>normal</mark>; \n}',
-            dismiss: true,
+            dismiss: true
         }]
     }, {
         key: 'font-family-name-quotes',
@@ -369,7 +369,7 @@ var options = {
             code: 'a {\n  font-family: <mark>"Arial"</mark>, sans-serif;\n}'
         }, {
             hint: 'Skip (allow any type of syntax)',
-            dismiss: true,
+            dismiss: true
         }]
     }, {
         key: 'comment-whitespace-inside',
@@ -383,7 +383,7 @@ var options = {
             value: 'never'
         }, {
             hint: 'Skip (inherit from standart config)',
-            dismiss: true,
+            dismiss: true
         }]
     }, {
         key: 'comment-empty-line-before',
@@ -397,7 +397,7 @@ var options = {
             value: 'never'
         }, {
             hint: 'Skip (inherit from standart config)',
-            dismiss: true,
+            dismiss: true
         }]
     }, {
         key: 'at-rule-no-vendor-prefix',
@@ -430,7 +430,7 @@ var options = {
             value: 'never-multi-line'
         }, {
             hint: 'Skip (inherit from standart config)',
-            dismiss: true,
+            dismiss: true
         }]
     }, {
         key: 'selector-pseudo-element-colon-notation',
@@ -505,7 +505,7 @@ var options = {
             value: 'never'
         }, {
             hint: 'Skip (inherit from standart config)',
-            dismiss: true,
+            dismiss: true
         }]
     }, {
         key: 'media-feature-range-operator-space-after',
@@ -519,7 +519,7 @@ var options = {
             value: 'never'
         }, {
             hint: 'Skip (inherit from standart config)',
-            dismiss: true,
+            dismiss: true
         }]
     }, {
         key: 'media-feature-parentheses-space-inside',
@@ -533,7 +533,7 @@ var options = {
             value: 'never'
         }, {
             hint: 'Skip (inherit from standart config)',
-            dismiss: true,
+            dismiss: true
         }]
     }, {
         key: 'media-feature-name-no-vendor-prefix',
@@ -559,7 +559,7 @@ var options = {
             value: 'never'
         }, {
             hint: 'Skip (inherit from standart config)',
-            dismiss: true,
+            dismiss: true
         }]
     }, {
         key: 'media-feature-colon-space-after',
@@ -573,8 +573,8 @@ var options = {
             value: 'never'
         }, {
             hint: 'Skip (inherit from standart config)',
-            dismiss: true,
+            dismiss: true
         }]
     }]
 };
-export { options };
+export { options as default };

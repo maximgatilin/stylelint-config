@@ -1,5 +1,8 @@
-import {Oncogene} from './oncogene.js';
-export class StyleLintOncogene extends Oncogene {
+import Oncogene from './oncogene';
+// run script using script-loader
+import exec from './highlight.pack.exec.js'; // eslint-disable-line
+
+class StyleLintOncogene extends Oncogene {
     constructor(options) {
         super(options);
         this.viewConfig();
@@ -54,7 +57,7 @@ export class StyleLintOncogene extends Oncogene {
         item.appendChild(hint);
 
         item.addEventListener('click', this.variantClickHandler.bind(this));
-        
+
         if (variant.code !== undefined) {
             item.appendChild(codeBlock);
             this.highlightCode(codeBlock);
@@ -104,7 +107,7 @@ export class StyleLintOncogene extends Oncogene {
         while (path.length > 1) {
             const subKey = path.shift();
 
-            if (!cur.hasOwnProperty(subKey)) cur[subKey] = {};
+            if (!Object.prototype.hasOwnProperty.call(cur, subKey)) cur[subKey] = {};
 
             if (!this.constructor.isObject(cur[subKey])) {
                 throw new Error(`Part of path ${key} is not an object`);
@@ -117,6 +120,8 @@ export class StyleLintOncogene extends Oncogene {
     }
 
     highlightCode(target) {
-        hljs.highlightBlock(target)
+        hljs.highlightBlock(target);
     }
 }
+
+export { StyleLintOncogene as default };

@@ -1,0 +1,16 @@
+{
+  "extends": "airbnb",
+  "env": {
+        "browser": true
+  },
+  "globals": {
+    "hljs": true
+  },
+  "rules": {
+    "indent": ["error", 4],
+    "no-use-before-define": ["error", { "functions": false }],
+    "no-unused-vars": ["error", { "varsIgnorePattern": "exec" }],
+    "comma-dangle": ["error", "never"],
+    "class-methods-use-this": 1
+	}
+}

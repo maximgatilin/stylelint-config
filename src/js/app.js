@@ -1,6 +1,5 @@
-import exec from './highlight.pack.exec.js';
-import { StyleLintOncogene } from './stylelintOncogene.js';
-import { options } from './options.js';
+import StyleLintOncogene from './stylelintOncogene';
+import options from './options';
 import '../css/style.css';
 import '../css/github-gist.css';
 
@@ -20,20 +19,19 @@ import '../css/github-gist.css';
         copyToClipboard('.config');
     });
 
-    function copyToClipboard(containerid) {
-    	try {
-    		window.getSelection().removeAllRanges();
-        const range = document.createRange();
-        range.selectNode(document.querySelector(containerid));
-        window.getSelection().addRange(range);
-        document.execCommand("Copy");
-        window.getSelection().removeAllRanges();
-        showQuickPopup('Copied');
-    	} catch(e) {
-    		showQuickPopup('Error. Please try again');
-    		throw new Error(e);
-    	}
-        
+    function copyToClipboard(container) {
+        try {
+            window.getSelection().removeAllRanges();
+            const range = document.createRange();
+            range.selectNode(document.querySelector(container));
+            window.getSelection().addRange(range);
+            document.execCommand('Copy');
+            window.getSelection().removeAllRanges();
+            showQuickPopup('Copied');
+        } catch (e) {
+            showQuickPopup('Error. Please try again');
+            throw new Error(e);
+        }
     }
 
     function showQuickPopup(text) {

@@ -1,4 +1,5 @@
-export class Oncogene {
+/* eslint-disable */
+class Oncogene {
     constructor(options) {
         if (!options.skipValidation) {
             this.constructor.checkOptions(options)
@@ -276,3 +277,5 @@ export class Oncogene {
         return Array.isArray(val)
     }
 }
+
+export { Oncogene as default };
