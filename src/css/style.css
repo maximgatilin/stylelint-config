@@ -1,5 +1,5 @@
 :root {
-    /*main colors*/
+    /* main colors */
     --font-color: #000;
     --back-color: #fff;
     --back-dark-color: #ecf0f1;
@@ -8,13 +8,13 @@
     --dark-border-active: #999;
     --link-color: #dc143c;
     --link-color-active: #32cd32;
-    /*ui colors*/
+    /* ui colors */
     --default-color: #3498db;
     --default-color-active: #2980b9;
     --warning-color: #e74c3c;
     --warning-color-active: #c0392b;
     --notify-background: #34495e;
-    /*sizes*/
+    /* sizes */
     --page-max-width: 1024px;
     --offset: 20px;
     --radius: 3px;
@@ -103,7 +103,7 @@ body {
     overflow: auto;
     border: 1px solid var(--dark-border);
     border-radius: var(--radius);
-    box-shadow: inset 0px 5px 25px 1px rgba(30,0,0,0.2);
+    box-shadow: inset 0 5px 25px 1px rgba(30, 0, 0, .2);
 }
 
 .block-title {
@@ -123,13 +123,13 @@ body {
     border-radius: 4px;
     cursor: pointer;
     border: 1px solid var(--dark-border);
-    box-shadow: 0 2px 7px 1px rgba(0,0,0,0.15);
+    box-shadow: 0 2px 7px 1px rgba(0, 0, 0, .15);
 }
 
 .oncogene-variants__item:hover,
 .oncogene-variants__item:active {
     border-color: var(--dark-border-active);
-    box-shadow: 0 2px 7px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 7px rgba(0, 0, 0, .05);
 }
 
 .oncogene-variants__item:active {
@@ -209,7 +209,6 @@ body {
     outline: none;
 }
 
-
 .footer {
     text-align: center;
     margin-top: auto;
@@ -244,7 +243,7 @@ body {
     padding: 14px 22px;
     font-size: 21px;
     border-radius: 7px;
+    color: #fff;
     background: var(--notify-background);
-    color: white;
     box-shadow: 0 4px 27px var(--notify-background);
 }
