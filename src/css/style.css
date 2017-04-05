@@ -103,7 +103,7 @@ body {
     overflow: auto;
     border: 1px solid var(--dark-border);
     border-radius: var(--radius);
-    box-shadow: inset 0 0 24px 0px rgba(0,0,0,0.06);
+    box-shadow: inset 0px 5px 25px 1px rgba(30,0,0,0.2);
 }
 
 .block-title {
@@ -123,11 +123,11 @@ body {
     border-radius: 4px;
     cursor: pointer;
     border: 1px solid var(--dark-border);
-    transition: .2s ease;
-    box-shadow: 0 2px 7px 1px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 7px 1px rgba(0,0,0,0.15);
 }
 
-.oncogene-variants__item:hover {
+.oncogene-variants__item:hover,
+.oncogene-variants__item:active {
     border-color: var(--dark-border-active);
     box-shadow: 0 2px 7px rgba(0,0,0,0.05);
 }
@@ -198,26 +198,17 @@ body {
 
 .button--copy {
     position: absolute;
-    top: var(--offset);
-    right: var(--offset);
+    top: 10px;
+    right: 10px;
     padding: 5px 10px;
     color: #fff;
     background: #000;
-    transition: .3s ease;
-    /*hide*/
-    opacity: 0;
-    pointer-events: none;
 }
 
 .button--copy:focus {
     outline: none;
 }
 
-.result:hover .button--copy {
-    /*show*/
-    opacity: 1;
-    pointer-events: auto;
-}
 
 .footer {
     text-align: center;
