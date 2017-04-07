@@ -106,7 +106,7 @@ const options = {
             code: '.foo {\n  margin: 0\n}',
             value: true
         }, {
-            hint: 'Allow qualifying a selector by type)',
+            hint: 'Allow qualifying a selector by type',
             dismiss: true,
             code: '<mark>a</mark>.foo {\n  margin: 0\n}'
         }]
