@@ -17,7 +17,7 @@ const options = {
             code: '.a {\n<mark>&#9;</mark>color: tomato;\n<mark>&#9;</mark>.b {\n<mark>&#9;&#9;</mark>color: salmon;\n<mark>&#9;</mark>}\n}\n',
             value: 'tab'
         }, {
-            hint: 'Skip (inherit from standart config)',
+            hint: 'Skip (inherit from standard config)',
             dismiss: true
         }]
     }, {
@@ -56,7 +56,7 @@ const options = {
             code: 'a {\n  color: #<mark>FFF</mark>;\n}',
             value: 'upper'
         }, {
-            hint: 'Skip (inherit from standart config)',
+            hint: 'Skip (inherit from standard config)',
             dismiss: true
         }]
     }, {
@@ -70,7 +70,7 @@ const options = {
             code: 'a {\n  color: #<mark>fff</mark>;\n}',
             value: 'short'
         }, {
-            hint: 'Skip (inherit from standart config)',
+            hint: 'Skip (inherit from standard config)',
             dismiss: true
         }]
     }, {
@@ -154,7 +154,7 @@ const options = {
             code: 'a +b { color: pink; }',
             value: 'never'
         }, {
-            hint: 'Skip (inherit from standart config)',
+            hint: 'Skip (inherit from standard config)',
             dismiss: true
         }]
     }, {
@@ -183,7 +183,7 @@ const options = {
             code: '[target= "_blank"] {}',
             value: 'never'
         }, {
-            hint: 'Skip (inherit from standart config)',
+            hint: 'Skip (inherit from standard config)',
             dismiss: true
         }]
     }, {
@@ -197,7 +197,7 @@ const options = {
             code: '[target ="_blank"] {}',
             value: 'never'
         }, {
-            hint: 'Skip (inherit from standart config)',
+            hint: 'Skip (inherit from standard config)',
             dismiss: true
         }]
     }, {
@@ -211,7 +211,7 @@ const options = {
             code: '[target=_blank] {}',
             value: 'never'
         }, {
-            hint: 'Skip (inherit from standart config)',
+            hint: 'Skip (inherit from standard config)',
             dismiss: true
         }]
     }, {
@@ -225,7 +225,7 @@ const options = {
             code: 'a { color: pink }\na { background: orange; color: pink }',
             value: 'never'
         }, {
-            hint: 'Skip (inherit from standart config)',
+            hint: 'Skip (inherit from standard config)',
             dismiss: true
         }]
     }, {
@@ -250,7 +250,7 @@ const options = {
             code: 'a {\n color: pink; \n}',
             value: 'never'
         }, {
-            hint: 'Skip (inherit from standart config)',
+            hint: 'Skip (inherit from standard config)',
             dismiss: true
         }]
     }, {
@@ -268,7 +268,7 @@ const options = {
             code: 'a {\n color:<mark> </mark>pink;\n box-shadow:0 0 0 1px #5b9dd9, \n  0 0 2px 1px rgba(30, 140, 190, 0.8); \n}',
             value: 'always-single-line'
         }, {
-            hint: 'Skip (inherit from standart config)',
+            hint: 'Skip (inherit from standard config)',
             dismiss: true
         }]
     }, {
@@ -305,7 +305,7 @@ const options = {
             code: 'a {\n line-height: .5; \n}',
             value: 'never'
         }, {
-            hint: 'Skip (inherit from standart config)',
+            hint: 'Skip (inherit from standard config)',
             dismiss: true
         }]
     }, {
@@ -382,7 +382,7 @@ const options = {
             code: '/*comment*/',
             value: 'never'
         }, {
-            hint: 'Skip (inherit from standart config)',
+            hint: 'Skip (inherit from standard config)',
             dismiss: true
         }]
     }, {
@@ -396,7 +396,7 @@ const options = {
             code: 'a {}\n/* comment */',
             value: 'never'
         }, {
-            hint: 'Skip (inherit from standart config)',
+            hint: 'Skip (inherit from standard config)',
             dismiss: true
         }]
     }, {
@@ -429,7 +429,7 @@ const options = {
             code: 'a {\n  color: red;\n}\nb {\n  color: blue;\n}',
             value: 'never-multi-line'
         }, {
-            hint: 'Skip (inherit from standart config)',
+            hint: 'Skip (inherit from standard config)',
             dismiss: true
         }]
     }, {
@@ -443,7 +443,7 @@ const options = {
             code: 'a<mark>::</mark>before { color: pink; }',
             value: 'double'
         }, {
-            hint: 'Skip (inherit from standart config)',
+            hint: 'Skip (inherit from standard config)',
             dismiss: true
         }]
     }, {
@@ -457,7 +457,7 @@ const options = {
             code: 'input:not([type="submit"]) {}',
             value: 'never'
         }, {
-            hint: 'Skip (inherit from standart config)',
+            hint: 'Skip (inherit from standard config)',
             dismiss: true
         }]
     }, {
@@ -504,7 +504,7 @@ const options = {
             code: '@media (max-width>=600px) {}',
             value: 'never'
         }, {
-            hint: 'Skip (inherit from standart config)',
+            hint: 'Skip (inherit from standard config)',
             dismiss: true
         }]
     }, {
@@ -518,7 +518,7 @@ const options = {
             code: '@media (max-width>=600px) {}',
             value: 'never'
         }, {
-            hint: 'Skip (inherit from standart config)',
+            hint: 'Skip (inherit from standard config)',
             dismiss: true
         }]
     }, {
@@ -532,7 +532,7 @@ const options = {
             code: '@media (max-width: 300px) {}',
             value: 'never'
         }, {
-            hint: 'Skip (inherit from standart config)',
+            hint: 'Skip (inherit from standard config)',
             dismiss: true
         }]
     }, {
@@ -558,7 +558,7 @@ const options = {
             code: '@media (max-width:600px) {}',
             value: 'never'
         }, {
-            hint: 'Skip (inherit from standart config)',
+            hint: 'Skip (inherit from standard config)',
             dismiss: true
         }]
     }, {
@@ -572,7 +572,7 @@ const options = {
             code: '@media (max-width:600px) {}',
             value: 'never'
         }, {
-            hint: 'Skip (inherit from standart config)',
+            hint: 'Skip (inherit from standard config)',
             dismiss: true
         }]
     }]
