@@ -539,7 +539,7 @@ const options = {
         key: 'media-feature-name-no-vendor-prefix',
         variants: [{
             hint: 'Disallow vendor prefixes for media feature names',
-            code: '@media (min-device-pixel-ratio: 1) {}',
+            code: '@media (min-resolution: 96dpi) {}',
             value: true
         }, {
             hint: 'Allow prefixes',
