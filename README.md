@@ -1,6 +1,4 @@
-[![Cult Of Martians](http://cultofmartians.com/assets/badges/badge.svg)](http://cultofmartians.com/tasks/stylelint-generator.html)
-
-# Stylelint-config
+# Stylelint-config [![Cult Of Martians][cult-img]][cult]
 App for quick generation stylelint configuration file.
 Uses [oncogene](https://github.com/gwer/oncogene) for config generation.
 
@@ -48,3 +46,6 @@ You can configure these properties:
 * media-feature-name-no-vendor-prefix
 * media-feature-colon-space-before
 * media-feature-colon-space-after
+
+[cult-img]: http://cultofmartians.com/assets/badges/badge.svg
+[cult]: http://cultofmartians.com/tasks/stylelint-generator.html
