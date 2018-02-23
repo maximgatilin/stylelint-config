@@ -1,3 +1,5 @@
+[![Cult Of Martians](http://cultofmartians.com/assets/badges/badge.svg)](http://cultofmartians.com/tasks/stylelint-generator.html)
+
 # Stylelint-config
 App for quick generation stylelint configuration file.
 Uses [oncogene](https://github.com/gwer/oncogene) for config generation.
