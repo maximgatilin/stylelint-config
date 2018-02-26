@@ -1,5 +1,5 @@
 # Stylelint-config [![Cult Of Martians][cult-img]][cult]
-App for quick generation stylelint configuration file.
+App for quick generation [Stylelint](https://stylelint.io/) configuration file.
 Uses [oncogene](https://github.com/gwer/oncogene) for config generation.
 
 You can configure these properties:
