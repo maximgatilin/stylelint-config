@@ -11,6 +11,37 @@ import '../css/github-gist.css';
     const popup = document.querySelector('.js-popup');
     const popupShowingTime = 700;
 
+    // функция копирования в буфер обмена
+    function copyToClipboard(container) {
+        try {
+            window.getSelection().removeAllRanges();
+            const range = document.createRange();
+            range.selectNode(document.querySelector(container));
+            window.getSelection().addRange(range);
+            document.execCommand('Copy');
+            window.getSelection().removeAllRanges();
+            showQuickPopup('Copied');
+        } catch (e) {
+            showQuickPopup('Error. Please try again');
+            throw new Error(e);
+        }
+    }
+
+    function showQuickPopup(text) {
+        popup.textContent = text;
+          popupWrapper.classList.remove('hidden');
+
+        setTimeout(() => {
+                popupWrapper.classList.add('hidden');
+        }, popupShowingTime);
+    }
+
+    copyBtn.addEventListener('click', () => {
+        // по клику копируем в буфер
+        copyToClipboard('.config');
+        console.log('clicked copy button!');
+    });
+
     backBtn.addEventListener('click', () => {
         generator.prevStep();
     });
